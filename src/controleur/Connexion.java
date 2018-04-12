@@ -2,12 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package projetjavahopital;
+package controleur;
 
 /*
  * 
  * Librairies importées
  */
+import controleur.*;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -54,7 +55,7 @@ public class Connexion {
         Class.forName("com.mysql.jdbc.Driver");
 
         // url de connexion "jdbc:mysql://localhost:3305/usernameECE"
-        String urlDatabase = "jdbc:mysql://localhost:8889/" + nameDatabase;
+        String urlDatabase = "jdbc:mysql://localhost:3306/" + nameDatabase;
 
         //création d'une connexion JDBC à la base 
         conn = DriverManager.getConnection(urlDatabase, loginDatabase, passwordDatabase);
@@ -84,7 +85,7 @@ public class Connexion {
             System.out.println("Connexion reussie");
 
             // url de connexion "jdbc:mysql://localhost:3305/usernameECE"
-            String urlDatabase = "jdbc:mysql://localhost:8889/" + usernameECE;
+            String urlDatabase = "jdbc:mysql://localhost:3306/" + usernameECE;
 
             //création d'une connexion JDBC à la base
             conn = DriverManager.getConnection(urlDatabase, loginDatabase, passwordDatabase);
@@ -208,14 +209,5 @@ public class Connexion {
      */
     public void executeUpdate(String requeteMaj) throws SQLException {
         stmt.executeUpdate(requeteMaj);
-    }
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        // TODO code application logic here
-        Connexion co=new Connexion("hopital","root","root");
-        String a=new String();
-        requetes = co.remplirChampsRequete("SELECT nom, prenom FROM employe");
-        for (String element : requetes)
-        System.out.println(element);
-        
     }
 }

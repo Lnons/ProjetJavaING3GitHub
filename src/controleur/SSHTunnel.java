@@ -1,5 +1,6 @@
-package projetjavahopital;
+package controleur;
 
+import controleur.*;
 import com.jcraft.jsch.*;
 
 /**
