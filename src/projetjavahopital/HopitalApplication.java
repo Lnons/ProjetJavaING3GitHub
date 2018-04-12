@@ -5,6 +5,11 @@
  */
 package projetjavahopital;
 
+import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import static projetjavahopital.Connexion.requetes;
+
 /**
  *
  * @author Louis
@@ -14,8 +19,6 @@ public class HopitalApplication {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
+   
     
 }
