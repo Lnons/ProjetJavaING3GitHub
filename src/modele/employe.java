@@ -56,6 +56,11 @@ public abstract class employe {
         this.tel = tel;
     }
     
+    public employe()
+    {
+        
+    }
+    
     public employe(int numero, String nom, String prenom, String adresse, String tel) {
         this.numero = numero;
         this.nom = nom;
