@@ -23,13 +23,16 @@ public class FenetreMenu extends JFrame implements ActionListener, ItemListener 
     private final JButton recherche = new JButton("Recherche");
     private final JButton maj = new JButton("Mise à jour");
     private final JButton reporting = new JButton("Reporting");
+    //private final JButton retour = new JButton("Retour");
+    private final JLabel titre;
     
     public FenetreMenu(FenetreLogin fen)
     {
         // creation par heritage de la fenetre
         super("Fenetre Menu");
-        
-        fen.dispose();
+
+        //on ferme la precedente fenetre
+        fen.dispose();     
         
         // mise en page (layout) de la fenetre visible
         setLayout(new BorderLayout());
@@ -38,31 +41,45 @@ public class FenetreMenu extends JFrame implements ActionListener, ItemListener 
         setVisible(true);
         setLocationRelativeTo(null);
         
+        //on cadrille notre fenetre
+        this.setLayout(new GridLayout(5,1));
+        
+        // creation des labels
+        titre = new JLabel("Menu de l'Hopital", JLabel.CENTER);
+        
+        //taille des labels
+        Font font = new Font("Arial",Font.BOLD,20);
+        titre.setFont(font);    
+       
         //ON MET EN PLACE LA DISPOSITION DE NOS BOUTONS
+        /*JPanel b0 = new JPanel();
+        b0.setLayout(new BoxLayout(b0, BoxLayout.LINE_AXIS));
+        b0.add(retour);*/
+        
         JPanel b1 = new JPanel();
-        //On définit le layout en lui indiquant qu'il travaillera en ligne
-        b1.setLayout(new BoxLayout(b1, BoxLayout.LINE_AXIS));
         b1.add(recherche);
 
         JPanel b2 = new JPanel();
-        //Idem pour cette ligne
-        b2.setLayout(new BoxLayout(b2, BoxLayout.LINE_AXIS));
         b2.add(maj);
 
         JPanel b3 = new JPanel();
-        //Idem pour cette ligne
-        b3.setLayout(new BoxLayout(b3, BoxLayout.LINE_AXIS));
         b3.add(reporting);
+        
+        //ON MET EN PLACE LA DISPOSITION DE NOS BOUTONS 
+        //this.getContentPane().add(b0);
+        this.getContentPane().add(titre);
+        this.getContentPane().add(b1);
+        this.getContentPane().add(b2);
+        this.getContentPane().add(b3);
 
-        JPanel b4 = new JPanel();
-        //On positionne maintenant ces trois lignes en colonne
-        b4.setLayout(new BoxLayout(b4, BoxLayout.PAGE_AXIS));
-        b4.add(b1);
-        b4.add(b2);
-        b4.add(b3);
-
-        this.getContentPane().add(b4); 
-        setVisible(true);
+        //this.getContentPane().add(b4); 
+        this.setVisible(true);
+        
+        // ajout des listeners
+        recherche.addActionListener(this);
+        maj.addActionListener(this);
+        reporting.addActionListener(this);
+        //retour.addActionListener(this);
         
         // pour fermer la fenetre
         addWindowListener(new WindowAdapter() {
@@ -83,6 +100,23 @@ public class FenetreMenu extends JFrame implements ActionListener, ItemListener 
     @Override
     @SuppressWarnings("CallToThreadDumpStack")
     public void actionPerformed(ActionEvent evt) {
+        Object source = evt.getSource();
+
+        // tester cas de la commande evenementielle
+        if (source == recherche) {
+                    FenetreRecherche fen = new FenetreRecherche(this);
+        } 
+        if (source == maj) {
+            try {
+                FenetreMaj fen = new FenetreMaj(this);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(FenetreMenu.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } 
+        if (source == reporting) {
+            FenetreReporting fen = new FenetreReporting(this);
+        } 
+        
     }
 
     /**

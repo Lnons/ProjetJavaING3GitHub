@@ -132,8 +132,10 @@ public class FenetreLogin extends JFrame implements ActionListener, ItemListener
                     // tentative de connexion si les 4 attributs sont remplis
                     //maconnexion = new Connexion(nomBDDString, loginBDDString, passwdBDDString);
                     maconnexion = new Connexion("hopital", "root", "");
+                    //debugg
                     System.out.println("connexion ok");
-                    String a=new String();
+                    //on cache la premiere fenetre
+                    //this.setVisible(false);
                     FenetreMenu fen = new FenetreMenu(this);
                 } catch (ClassNotFoundException cnfe) {
                     System.out.println("Connexion echouee : probleme de classe");
