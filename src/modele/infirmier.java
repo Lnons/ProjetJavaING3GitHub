@@ -5,16 +5,25 @@
  */
 package modele;
 
+import controleur.Connexion;
+import java.sql.SQLException;
+import java.util.Scanner;
+
 /**
  *
  * @author victo
  */
 public class infirmier extends employe{
     private String code_service;
-    private boolean rotation;
-    private float salaire;
+    private String rotation;
+    private String salaire;
 
-    public infirmier(String code_service, boolean rotation, float salaire, int numero, String nom, String prenom, String adresse, String tel) {
+    public infirmier()
+    {
+        super();
+    }
+    
+    public infirmier(String numero, String nom, String prenom, String tel, String adresse, String code_service, String rotation, String salaire) {
         super(numero, nom, prenom, adresse, tel);
         this.code_service = code_service;
         this.rotation = rotation;
@@ -29,27 +38,27 @@ public class infirmier extends employe{
         this.code_service = code_service;
     }
 
-    public boolean isRotation() {
+    public String isRotation() {
         return rotation;
     }
 
-    public void setRotation(boolean rotation) {
+    public void setRotation(String rotation) {
         this.rotation = rotation;
     }
 
-    public float getSalaire() {
+    public String getSalaire() {
         return salaire;
     }
 
-    public void setSalaire(float salaire) {
+    public void setSalaire(String salaire) {
         this.salaire = salaire;
     }
 
-    public int getNumero() {
+    public String getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(String numero) {
         this.numero = numero;
     }
 
@@ -89,5 +98,35 @@ public class infirmier extends employe{
     public String toString() {
         return "infirmier{" + "code_service=" + code_service + ", rotation=" + rotation + ", salaire=" + salaire + '}';
     }    
+    
+    public void addInfirmier() throws SQLException, ClassNotFoundException
+    { 
+      
+        Scanner sc = new Scanner(System.in);
+        
+        String requeteEmploye="insert into employe values ("+numero+",'"+nom+"','"+prenom+"','"+adresse+"','"+tel+"');";
+        String requeteInfirmier="insert into infirmier values ("+numero+",'"+code_service+"','"+rotation+"',"+salaire+");";
+        
+        
+        Connexion co=new Connexion("hopital","root","root");
+        co.executeUpdate(requeteEmploye);
+        co.executeUpdate(requeteInfirmier);
+        
+    }
+    public void suppInfirmier(String numSupp) throws SQLException, ClassNotFoundException
+    { 
+        
+       
+        String numero=numSupp;
+        
+        String requeteInfirmier="DELETE FROM infirmier WHERE numero="+numero+";";
+        String requeteEmploye="DELETE FROM employe WHERE numero="+numero+";";
+        
+        
+        Connexion co=new Connexion("hopital","root","root");
+        co.executeUpdate(requeteInfirmier);
+        co.executeUpdate(requeteEmploye);
+        
+    }
     
 }

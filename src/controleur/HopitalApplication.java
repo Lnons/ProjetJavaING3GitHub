@@ -30,8 +30,11 @@ public class HopitalApplication {
         // TODO code application logic here
         Scanner sc = new Scanner(System.in);
         Connexion co=new Connexion("hopital","root","root");
-        docteur doc=new docteur();
+        //docteur doc=new docteur();
         
+        FenetreLogin fenetre=new FenetreLogin();
+        
+        /*
         requetes = co.remplirChampsRequete("SELECT employe.nom, employe.prenom\n" +
 "FROM employe\n" +
 "JOIN docteur\n" +
@@ -70,7 +73,7 @@ public class HopitalApplication {
             System.out.println("Fin du programme");
             System.exit(0);
         }
-        
+        */
         /*
         SelectionRequetes sR=new SelectionRequetes();
         sR.selectionner();

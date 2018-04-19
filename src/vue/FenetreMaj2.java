@@ -182,7 +182,7 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
                 if(champ_rempli[i]=="")
                     blindage=true;
             }
-            if(valid_int(champ_rempli[0])==true || valid_int(champ_rempli[1]) || valid_int(champ_rempli[3]))
+            if(valid_int(champ_rempli[0])==true || valid_int(champ_rempli[3]))
                 blindage=true;
         }
         else if(source=="docteur")
@@ -217,9 +217,10 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
             {
                 if(champ_rempli[i]=="")
                     blindage=true;
-                if(valid_int(champ_rempli[i])==true)
-                    blindage=true;
+               
             }
+            if(valid_int(champ_rempli[0])==true || valid_int(champ_rempli[2])==true|| valid_int(champ_rempli[3])==true)
+                    blindage=true;
         }
         else if(source=="infirmier")
         {
@@ -288,38 +289,46 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
     {
         if(source=="chambre")
         {
-            System.out.println(champ_rempli[0]);
-            System.out.println(champ_rempli[1]);
+            chambre cha = new chambre (champ_rempli[0], champ_rempli[1],champ_rempli[2],
+                    champ_rempli[3]);
+            cha.addChambre();
         }
         else if(source=="docteur")
         {
-            //docteur doc = new docteur (champ_rempli[0], champ_rempli[1],champ_rempli[2],
-            //        champ_rempli[3],champ_rempli[4],champ_rempli[5]);
-            //doc.addDocteur();
+            docteur doc = new docteur (champ_rempli[0], champ_rempli[1],champ_rempli[2],
+                    champ_rempli[3],champ_rempli[4],champ_rempli[5]);
+            doc.addDocteur();
         }
-        else if(source=="employe")
+        else if(source=="employe") //a supprimer
         {
-            System.out.println("oui");
+            System.out.println("Impossible");
         }
         else if(source=="hospitalisation")
         {
-            System.out.println("oui");
+            hospitalisation hos = new hospitalisation (champ_rempli[0], champ_rempli[1],champ_rempli[2],
+                    champ_rempli[3]);
+            hos.addHospitalisation();
         }
         else if(source=="infirmier")
         {
-            System.out.println(champ_rempli[0]);
+            infirmier inf = new infirmier (champ_rempli[0], champ_rempli[1],champ_rempli[2],
+                    champ_rempli[3],champ_rempli[4],champ_rempli[5],champ_rempli[6],champ_rempli[7]);
+            inf.addInfirmier();
         }
         else if(source=="malade")
         {
-            System.out.println("oui");
+            malade mal = new malade (champ_rempli[0], champ_rempli[1],champ_rempli[2],
+                    champ_rempli[3],champ_rempli[4],champ_rempli[5]);
+            mal.addMalade();
         }
-        else if(source=="service")
+        else if(source=="service") //a supprimer
         {
-            System.out.println("oui");
+            System.out.println("Impossible");
         }
         else if(source=="soigne")
         {
-            System.out.println("oui");
+            soigne soi = new soigne (champ_rempli[0], champ_rempli[1]);
+            soi.addSoigne();
         }
         else
             JOptionPane.showMessageDialog(this,"Modification impossible ! Veuillez réessayer ","Warning",JOptionPane.WARNING_MESSAGE);
@@ -343,7 +352,7 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
                 if(champ_rempli[i]=="")
                     blindage=true;
             }
-            if(valid_int(champ_rempli[0])==true || valid_int(champ_rempli[1]))
+            if(valid_int(champ_rempli[0])==true)
                 blindage=true;
         }
         else if(source=="docteur")
@@ -427,37 +436,41 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
     {
         if(source=="chambre")
         {
-            System.out.println(champ_rempli[0]);
-            System.out.println(champ_rempli[1]);
+            chambre cha =new chambre();
+            cha.suppChambre(champ_rempli[0],champ_rempli[1]);
         }
         else if(source=="docteur")
         {
-            docteur doc = new docteur ();
-            //doc.addDocteur();
+            docteur doc = new docteur();
+            doc.suppDocteur(champ_rempli[0]);
         }
-        else if(source=="employe")
+        else if(source=="employe") //a supprimer
         {
-            System.out.println("oui");
+            System.out.println("Impossible");
         }
         else if(source=="hospitalisation")
         {
-            System.out.println("oui");
+            hospitalisation hos = new hospitalisation();
+            hos.suppHospitalisation(champ_rempli[0]);
         }
         else if(source=="infirmier")
         {
-            System.out.println(champ_rempli[0]);
+            infirmier inf= new infirmier();
+            inf.suppInfirmier(champ_rempli[0]);
         }
         else if(source=="malade")
         {
-            System.out.println("oui");
+            malade mal = new malade();
+            mal.suppMalade(champ_rempli[0]);
         }
-        else if(source=="service")
+        else if(source=="service") //a supprimer
         {
-            System.out.println("oui");
+            System.out.println("Impossible");
         }
         else if(source=="soigne")
         {
-            System.out.println("oui");
+            soigne soi = new soigne();
+            soi.suppSoigne(champ_rempli[0]);
         }
         else
             JOptionPane.showMessageDialog(this,"Suppression impossible ! Veuillez réessayer ","Warning",JOptionPane.WARNING_MESSAGE);

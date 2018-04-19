@@ -10,17 +10,17 @@ package modele;
  * @author victo
  */
 public abstract class employe {
-    protected int numero;
+    protected String numero;
     protected String nom;
     protected String prenom;
     protected String adresse;
     protected String tel;
 
-    public int getNumero() {
+    public String getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(String numero) {
         this.numero = numero;
     }
 
@@ -61,7 +61,7 @@ public abstract class employe {
         
     }
     
-    public employe(int numero, String nom, String prenom, String adresse, String tel) {
+    public employe(String numero, String nom, String prenom, String adresse, String tel) {
         this.numero = numero;
         this.nom = nom;
         this.prenom = prenom;

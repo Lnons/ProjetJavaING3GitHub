@@ -19,14 +19,13 @@ import static controleur.Connexion.requetes;
  */
 public class docteur extends employe{
     private String specialite;
-    private String numero;
     
     public docteur()
     {
      super(); 
     }
 
-    public docteur(int numero, String specialite, String nom, String prenom, String adresse, String tel) {
+    public docteur(String numero, String nom, String prenom, String adresse, String tel, String specialite) {
         super(numero, nom, prenom, adresse, tel);
         this.specialite = specialite;
     }
@@ -47,69 +46,30 @@ public class docteur extends employe{
     
     public void addDocteur() throws SQLException, ClassNotFoundException
     { 
-        String a;
+      
         Scanner sc = new Scanner(System.in);
         
-        System.out.println("Vous voulez ajouter un docteur");
-        
-        System.out.println("Entrez le numero du docteur");
-        String numero=sc.nextLine();
-        
-        System.out.println("Entrez le nom du docteur");
-        String nom=sc.nextLine();
-        
-        System.out.println("Entrez le prenom du docteur");
-        String prenom=sc.nextLine();
-        
-        System.out.println("Entrez l'adresse du docteur");
-        String adresse=sc.nextLine();
-        
-        System.out.println("Entrez le numero de telephone du docteur");
-        String numeroTel=sc.nextLine();
-        
-        System.out.println("Entrez la specialite du docteur au choix entre : \n" + 
-                          "- Anesthesiste \n" +
-                          "- Cardiologue\n" +
-                          "- Generaliste\n" +
-                          "- Orthopediste\n" +
-                          "- Pneumologue\n" +
-                          "- Radiologue\n" +
-                          "- Traumatologue");
-        
-        specialite=sc.nextLine();
-        while((!specialite.equals("Anesthesiste"))&&(!specialite.equals("Cardiologue"))&&(!specialite.equals("Generaliste"))&&(!specialite.equals("Orthopediste"))&&(!specialite.equals("Pneumologue"))&&(!specialite.equals("Radiologue"))&&(!specialite.equals("Traumatologue")))
-        {
-            System.out.println("Erreur, cette specialite n'existe pas, veuillez rentrer une specialite parmi la liste ci-dessus");
-            specialite=sc.nextLine();
-        }
-        
-
-        String requeteEmploye="insert into employe values ("+numero+",'"+nom+"','"+prenom+"','"+adresse+"','"+numeroTel+"');";
+        String requeteEmploye="insert into employe values ("+numero+",'"+nom+"','"+prenom+"','"+adresse+"','"+tel+"');";
         String requeteDocteur="insert into docteur values ("+numero+",'"+specialite+"');";
-        //String requete=requeteEmploye+requeteDocteur;
+        
         
         Connexion co=new Connexion("hopital","root","root");
         co.executeUpdate(requeteEmploye);
         co.executeUpdate(requeteDocteur);
         
     }
-    public void suppDocteur() throws SQLException, ClassNotFoundException
+    public void suppDocteur(String suppNum) throws SQLException, ClassNotFoundException
     { 
-        
-        Scanner sc = new Scanner(System.in);
-        
-        System.out.println("Vous voulez supprimer un docteur");
-        
-        System.out.println("Entrez le numero du docteur a supprimer");
-        String numero=sc.nextLine();
+        String numero=suppNum;
         
         String requeteDocteur="DELETE FROM docteur WHERE numero="+numero+";";
         String requeteEmploye="DELETE FROM employe WHERE numero="+numero+";";
         
-        
         Connexion co=new Connexion("hopital","root","root");
+        
         co.executeUpdate(requeteDocteur);
         co.executeUpdate(requeteEmploye);
+        
         
     }
     

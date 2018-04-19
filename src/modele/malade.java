@@ -5,19 +5,28 @@
  */
 package modele;
 
+import controleur.Connexion;
+import java.sql.SQLException;
+import java.util.Scanner;
+
 /**
  *
  * @author victo
  */
 public class malade {
-    private int numero;
+    private String numero;
     private String nom;
     private String prenom;
     private String adresse;
     private String tel;
     private String mutuelle;
 
-    public malade(int numero, String nom, String prenom, String adresse, String tel, String mutuelle) {
+    public malade()
+    {
+        
+    }
+    
+    public malade(String numero, String nom, String prenom, String tel, String adresse, String mutuelle) {
         this.numero = numero;
         this.nom = nom;
         this.prenom = prenom;
@@ -26,11 +35,11 @@ public class malade {
         this.mutuelle = mutuelle;
     }
 
-    public int getNumero() {
+    public String getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(String numero) {
         this.numero = numero;
     }
 
@@ -79,5 +88,28 @@ public class malade {
         return "malade{" + "numero=" + numero + ", nom=" + nom + ", prenom=" + prenom + ", adresse=" + adresse + ", tel=" + tel + ", mutuelle=" + mutuelle + '}';
     }
     
+    public void addMalade() throws SQLException, ClassNotFoundException
+    { 
+      
+        String requeteMalade="insert into malade values ("+numero+",'"+nom+"','"+prenom+"','"+adresse+"','"+tel+"','"+mutuelle+"');";
+        
+        
+        
+        Connexion co=new Connexion("hopital","root","root");
+        co.executeUpdate(requeteMalade);
+        
+    }
+    public void suppMalade(String suppNum) throws SQLException, ClassNotFoundException
+    { 
+        String numero=suppNum;
+        
+        String requeteMalade="DELETE FROM malade WHERE numero="+numero+";";
+        
+        Connexion co=new Connexion("hopital","root","root");
+        
+        co.executeUpdate(requeteMalade);
+        
+        
+    }
     
 }

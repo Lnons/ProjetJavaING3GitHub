@@ -5,28 +5,36 @@
  */
 package modele;
 
+import controleur.Connexion;
+import java.sql.SQLException;
+
 /**
  *
  * @author victo
  */
 public class hospitalisation {
-    private int no_malade;
+    private String no_malade;
     private String code_service;
-    private int no_chambre;
-    private int lit;
+    private String no_chambre;
+    private String lit;
 
-    public hospitalisation(int no_malade, String code_service, int no_chambre, int lit) {
+    public hospitalisation()
+    {
+        
+    }
+    
+    public hospitalisation(String no_malade, String code_service, String no_chambre, String lit) {
         this.no_malade = no_malade;
         this.code_service = code_service;
         this.no_chambre = no_chambre;
         this.lit = lit;
     }
 
-    public int getNo_malade() {
+    public String getNo_malade() {
         return no_malade;
     }
 
-    public void setNo_malade(int no_malade) {
+    public void setNo_malade(String no_malade) {
         this.no_malade = no_malade;
     }
 
@@ -38,19 +46,19 @@ public class hospitalisation {
         this.code_service = code_service;
     }
 
-    public int getNo_chambre() {
+    public String getNo_chambre() {
         return no_chambre;
     }
 
-    public void setNo_chambre(int no_chambre) {
+    public void setNo_chambre(String no_chambre) {
         this.no_chambre = no_chambre;
     }
 
-    public int getLit() {
+    public String getLit() {
         return lit;
     }
 
-    public void setLit(int lit) {
+    public void setLit(String lit) {
         this.lit = lit;
     }
 
@@ -59,5 +67,29 @@ public class hospitalisation {
         return "hospitalisation{" + "no_malade=" + no_malade + ", code_service=" + code_service + ", no_chambre=" + no_chambre + ", lit=" + lit + '}';
     }
     
+    public void addHospitalisation() throws SQLException, ClassNotFoundException
+    { 
+      
+        String requeteHospitalisation="insert into hospitalisation values ("+no_malade+",'"+code_service+"',"+no_chambre+","+lit+");";
+        
+        
+        
+        Connexion co=new Connexion("hopital","root","root");
+        co.executeUpdate(requeteHospitalisation);
+        
+    }
+    
+    public void suppHospitalisation(String suppNum) throws SQLException, ClassNotFoundException
+    { 
+        String numero=suppNum;
+        
+        String requeteHospitalisation="DELETE FROM hospitalisation WHERE no_malade="+numero+";";
+        
+        Connexion co=new Connexion("hopital","root","root");
+        
+        co.executeUpdate(requeteHospitalisation);
+        
+        
+    }
     
 }
