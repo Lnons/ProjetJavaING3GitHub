@@ -29,7 +29,7 @@ public class HopitalApplication {
             
         // TODO code application logic here
         Scanner sc = new Scanner(System.in);
-        Connexion co=new Connexion("hopital","root","root");
+        Connexion co=new Connexion("hopital","root","");
         //docteur doc=new docteur();
         
         FenetreLogin fenetre=new FenetreLogin();

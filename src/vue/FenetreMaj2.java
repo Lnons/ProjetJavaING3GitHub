@@ -163,21 +163,28 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(FenetreMaj2.class.getName()).log(Level.SEVERE, null, ex);
             }
-            //supprimer_objet(source_prec);
-           // this.dispose();
         }
-        if (source == modifier) {
+       if (source == modifier) {
             String texte_maj = new String(texte.getText());
             String attribut_choisi = new String((String) combo_attribut.getSelectedItem());
-            System.out.println(texte.getText() + combo_attribut.getSelectedItem());
-            try {
-                modifier_objet(source_prec, texte_maj,attribut_choisi);
-            } catch (SQLException ex) {
-                Logger.getLogger(FenetreMaj2.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(FenetreMaj2.class.getName()).log(Level.SEVERE, null, ex);
+            if(texte_maj.equals(""))
+            {
+                JOptionPane.showMessageDialog(this,"Attention à bien remplir les champs au bon format ! Veuillez réessayer ","Warning",JOptionPane.WARNING_MESSAGE);                   
             }
-            this.dispose();
+            else
+            {
+                try {
+                    if(modifier_objet(source_prec, texte_maj,attribut_choisi)==true)
+                    {
+                        JOptionPane.showMessageDialog(this,"Modification effectuée ! ","Modification",JOptionPane.INFORMATION_MESSAGE);
+                        this.dispose();
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(FenetreMaj2.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreMaj2.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
     }
 
@@ -606,7 +613,6 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
         if(blindage==false)
         {
             champ_modifier_objet(source);
-            //JOptionPane.showMessageDialog(this,"Objet existant ! Veuillez choisir un attribut à modifier","Trouvé",JOptionPane.INFORMATION_MESSAGE);
         }
         else
             JOptionPane.showMessageDialog(this,"Attention à bien remplir les champs et au bon format ! Veuillez réessayer ","Warning",JOptionPane.WARNING_MESSAGE);        
@@ -638,7 +644,7 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
         this.setVisible(true);
     }
     
-     public void modifier_objet(Object source, String champ_maj, String attribut_choisi) throws SQLException, ClassNotFoundException
+    public boolean modifier_objet(Object source, String champ_maj, String attribut_choisi) throws SQLException, ClassNotFoundException
     {
         /*
         Ici, champ_maj c'est le champ rempli par l'utilisateur. C'est le champ qui est mis
@@ -656,14 +662,25 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
         Je pense que pour trouver le bon attributs choisi, il faudra faire ds comparaisons de String
         dans ta fonction mise_a_jour ... enfin je sais pas trop, on verra
         tu me dira deja si ca marche
+*/
+        
+        /*
+        LA PRIMARY KEY CORRESPOND A champ_rempli[0]
+        SAUF POUR CHAMBRE ET SOIGNE : c'est champ_rempli[0] et champ_rempli[1]
+        je crois car dans l'éconcé du projet, ces deux tables ont 2 primary key
         */
+        
+        boolean valide=true;
+        
         if(source=="chambre")
         {
             
         }
         else if(source=="docteur")
         {
-            
+            System.out.println("primary key :" + champ_rempli[0]);
+            System.out.println("attribut à changer :" + attribut_choisi);
+            System.out.println("nouvel attribut taper a ecran :" + champ_maj);
         }
         else if(source=="employe")
         {
@@ -679,7 +696,9 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
         }
         else if(source=="malade")
         {
-            
+            System.out.println("primary key :" + champ_rempli[0]);
+            System.out.println("attribut à changer :" + attribut_choisi);
+            System.out.println("nouvel attribut taper a ecran :" + champ_maj);
         }
         else if(source=="service")
         {
@@ -690,8 +709,11 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
             
         }
         else
-            JOptionPane.showMessageDialog(this,"Modification impossible ! Veuillez réessayer ","Warning",JOptionPane.WARNING_MESSAGE);
-    
+        {
+             JOptionPane.showMessageDialog(this,"Modification impossible ! Veuillez réessayer ","Warning",JOptionPane.WARNING_MESSAGE);
+             valide=false;
+        }
+        return valide; 
     }
     
     public void affiche_comboBox(Object source, JComboBox combo) { 

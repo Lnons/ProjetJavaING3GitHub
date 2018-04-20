@@ -66,7 +66,7 @@ public class FenetreMaj extends JFrame implements ActionListener, ItemListener {
         setLocationRelativeTo(null);
         
         //on cadrille notre fenetre
-        this.setLayout(new GridLayout(5,1));
+        this.setLayout(new GridLayout(6,1));
         
         // creation des labels
         titre = new JLabel("Mise à jour", JLabel.CENTER);
@@ -102,6 +102,7 @@ public class FenetreMaj extends JFrame implements ActionListener, ItemListener {
         //ON MET EN PLACE LA DISPOSITION DE NOS BOUTONS
         this.getContentPane().add(titre);
         this.getContentPane().add(b1);
+        this.getContentPane().add(b2);
         this.setVisible(true);
         
         // pour fermer la fenetre
