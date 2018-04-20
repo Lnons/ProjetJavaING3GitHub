@@ -26,8 +26,10 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
     private final JButton fermer = new JButton("fermer");
     private final JPanel b0;
     private final JButton terminer = new JButton("Valider");
-    private final JButton supprimer = new JButton("Supprimer");
-    private JPanel p1,p2,p3,p4,p5,p6,p7,p8,p9;
+    private final JButton supprimer = new JButton("Supprimer");   
+    private final JButton rechercher = new JButton("Rechercher un objet");
+    private final JButton modifier = new JButton("Mettre à jour");
+    private JPanel p1,p2,p3,p4,p5,p6,p7,p8,p9,b1,b2,b3;;
     public String champ_rempli[] = new String[30];
     private JTextField champ1 = new JTextField(8);
     private JTextField champ2 = new JTextField(8);
@@ -38,6 +40,9 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
     private JTextField champ7 = new JTextField(8);
     private JTextField champ8 = new JTextField(8);
     private Object source_prec=null;
+    private final String[] string_attributs={"Attributs..."};
+    private JComboBox combo_attribut = new JComboBox(string_attributs);
+    private JTextField texte = new JTextField(10);
     
     public FenetreMaj2(Object source, int choix)
     {
@@ -65,6 +70,10 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
         {
             titre = new JLabel("Suppression", JLabel.CENTER);
         }
+        else if(choix==3)
+        {
+            titre = new JLabel("Recherche de " + source + " existant", JLabel.CENTER);
+        }
         else
             titre = new JLabel("Erreur ! Veuillez réessayer", JLabel.CENTER);
                
@@ -88,6 +97,10 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
         else if(choix==2)
         {
             supprimer(source);
+        }
+        else if(choix==3)
+        {
+            modifier(source);
         }
             
         this.setVisible(true);
@@ -134,6 +147,31 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
             try {
                 verification_supprimer(source_prec);
                 supprimer_objet(source_prec);
+            } catch (SQLException ex) {
+                Logger.getLogger(FenetreMaj2.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(FenetreMaj2.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            this.dispose();
+        }
+        if (source == rechercher) {
+           
+            try {
+                verification_modifier(source_prec);
+            } catch (SQLException ex) {
+                Logger.getLogger(FenetreMaj2.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(FenetreMaj2.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            //supprimer_objet(source_prec);
+           // this.dispose();
+        }
+        if (source == modifier) {
+            String texte_maj = new String(texte.getText());
+            String attribut_choisi = new String((String) combo_attribut.getSelectedItem());
+            System.out.println(texte.getText() + combo_attribut.getSelectedItem());
+            try {
+                modifier_objet(source_prec, texte_maj,attribut_choisi);
             } catch (SQLException ex) {
                 Logger.getLogger(FenetreMaj2.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
@@ -474,6 +512,246 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
         }
         else
             JOptionPane.showMessageDialog(this,"Suppression impossible ! Veuillez réessayer ","Warning",JOptionPane.WARNING_MESSAGE);
+    }
+    
+    public void verification_modifier(Object source) throws SQLException, ClassNotFoundException
+    {   
+        boolean blindage=false;
+        
+        if (!champ1.getText().equals("null"))
+           champ_rempli[0]=champ1.getText();
+        if (!champ2.getText().equals("null"))
+           champ_rempli[1]=champ2.getText(); 
+        
+        if(source=="chambre")
+        {
+            System.out.println("oui");
+            for(int i=0 ; i<2 ; i++)
+            {
+                if(champ_rempli[i]=="")
+                    blindage=true;
+            }
+            if(valid_int(champ_rempli[0])==true)
+                blindage=true;
+        }
+        else if(source=="docteur")
+        {
+            if(champ_rempli[0].equals(""))
+            {
+                blindage=true;
+            }
+            if(valid_int(champ_rempli[0])==true)
+                blindage=true;
+            
+        }
+        else if(source=="employe")
+        {
+            if(champ_rempli[0]=="")
+            {
+                blindage=true;
+            }
+            if(valid_int(champ_rempli[0])==true)
+                blindage=true;
+
+        }
+        else if(source=="hospitalisation")
+        {
+            if(champ_rempli[0]=="")
+                blindage=true;
+            if(valid_int(champ_rempli[0])==true)
+                blindage=true;
+            
+        }
+        else if(source=="infirmier")
+        {
+            if(champ_rempli[0]=="")
+            {
+                blindage=true;
+            }
+            
+            if(valid_int(champ_rempli[0])==true)
+                    blindage=true;
+        }
+        else if(source=="malade")
+        {
+            if(champ_rempli[0]=="")
+            {
+                blindage=true;
+            }            
+            if(valid_int(champ_rempli[0])==true)
+                    blindage=true;
+        }
+        else if(source=="service")
+        {
+            if(champ_rempli[0]=="")
+            {
+                blindage=true;
+            }
+            if(valid_int(champ_rempli[0])==true)
+                    blindage=true;
+        }
+        else if(source=="soigne")
+        {
+            for(int i=0 ; i<2 ; i++)
+            {
+                if(champ_rempli[i]=="")
+                    blindage=true;
+                if(valid_int(champ_rempli[i])==true)
+                    blindage=true;
+            }
+        }
+        else
+            blindage=true;
+               
+        if(blindage==false)
+        {
+            champ_modifier_objet(source);
+            //JOptionPane.showMessageDialog(this,"Objet existant ! Veuillez choisir un attribut à modifier","Trouvé",JOptionPane.INFORMATION_MESSAGE);
+        }
+        else
+            JOptionPane.showMessageDialog(this,"Attention à bien remplir les champs et au bon format ! Veuillez réessayer ","Warning",JOptionPane.WARNING_MESSAGE);        
+    }
+    
+    public void champ_modifier_objet(Object source)throws SQLException, ClassNotFoundException
+    {     
+        combo_attribut.setPreferredSize(new Dimension(100, 25));
+        
+        JLabel modif_titre = new JLabel("\nObjet trouvé ! Choisissez l'attribut à mettre à jour ");
+        Font font = new Font("Arial",Font.BOLD,15);
+        modif_titre.setFont(font);
+        
+        //on affiche sur la fenetre
+        b3 = new JPanel();
+        b1 = new JPanel();
+        b2 = new JPanel();
+        b1.add(combo_attribut);
+        b1.add(texte);
+        b2.add(modifier);
+        b3.add(modif_titre);
+        affiche_comboBox(source,combo_attribut);
+        combo_attribut.addActionListener(this);
+        modifier.addActionListener(this);   
+        
+        this.getContentPane().add(b3);
+        this.getContentPane().add(b1);
+        this.getContentPane().add(b2);
+        this.setVisible(true);
+    }
+    
+     public void modifier_objet(Object source, String champ_maj, String attribut_choisi) throws SQLException, ClassNotFoundException
+    {
+        /*
+        Ici, champ_maj c'est le champ rempli par l'utilisateur. C'est le champ qui est mis
+        à jour.
+        attribut_choisi, comme son nom l'indique, c'est l'attribut que souhaite modifier 
+        l'utilisateur
+        
+        Donc je pense qu'il faut qu'on crée un objet dans chaque if si dessous, et que l'on
+        appelle ensuiet la fonction Mise_a_jour que tu as codé et qui est présente dans 
+        chaque classe de Modele ^^
+        
+        Je ne sais pas comment tu as codé la fonction Mise_à_jour mais à mon avis, tu dois
+        lui envoyer en parametre champ_maj et attribut_choisi
+        
+        Je pense que pour trouver le bon attributs choisi, il faudra faire ds comparaisons de String
+        dans ta fonction mise_a_jour ... enfin je sais pas trop, on verra
+        tu me dira deja si ca marche
+        */
+        if(source=="chambre")
+        {
+            
+        }
+        else if(source=="docteur")
+        {
+            
+        }
+        else if(source=="employe")
+        {
+            
+        }
+        else if(source=="hospitalisation")
+        {
+            
+        }
+        else if(source=="infirmier")
+        {
+            
+        }
+        else if(source=="malade")
+        {
+            
+        }
+        else if(source=="service")
+        {
+            
+        }
+        else if(source=="soigne")
+        {
+            
+        }
+        else
+            JOptionPane.showMessageDialog(this,"Modification impossible ! Veuillez réessayer ","Warning",JOptionPane.WARNING_MESSAGE);
+    
+    }
+    
+    public void affiche_comboBox(Object source, JComboBox combo) { 
+        combo.removeAllItems();
+        
+        if(source=="chambre")
+        {
+            combo.addItem("NO_CHAMBRE");
+            combo.addItem("CODE_SERVICE");
+            combo.addItem("SURVEILLANT");
+            combo.addItem("NB_LITS");
+        }
+        if(source=="docteur")
+        {
+            combo.addItem("numero");
+            combo.addItem("specialite");
+        }
+        if(source=="employe")
+        {
+            combo.addItem("numero");
+            combo.addItem("NOM");
+            combo.addItem("PRENOM");
+            combo.addItem("TEL");
+            combo.addItem("ADRESSE");
+        }
+        if(source=="hospitalisation")
+        {
+            combo.addItem("NO_MALADE");
+            combo.addItem("CODE_SERVICE");
+            combo.addItem("NO_CHAMBRE");
+            combo.addItem("LIT");
+        }
+        if(source=="infirmier")
+        {
+            combo.addItem("NUMERO");
+            combo.addItem("CODE_SERVICE");
+            combo.addItem("ROTATION");
+            combo.addItem("SALAIRE");
+        }
+        if(source=="malade")
+        {
+            combo.addItem("NUMERO");
+            combo.addItem("NOM");
+            combo.addItem("PRENOM");
+            combo.addItem("TEL");
+            combo.addItem("ADRESSE");
+            combo.addItem("MUTUELLE");
+        }
+        if(source=="service")
+        {
+            combo.addItem("CODE");
+            combo.addItem("NOM");
+            combo.addItem("BATIMENT");
+            combo.addItem("DIRECTEUR");
+        }
+        if(source=="soigne")
+        {
+            combo.addItem("NO_DOCTEUR");
+            combo.addItem("NO_MALADE");
+        }
     }
     
     public boolean valid_float(String s)
@@ -927,4 +1205,141 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
         
         supprimer.addActionListener(this);
     }
+    
+    public void modifier(Object source)
+    {
+        if(source=="chambre")
+        {
+            lab1 = new JLabel("Numero chambre", JLabel.CENTER);
+            lab2 = new JLabel("Code service", JLabel.CENTER); 
+
+            // creation des panneaux
+            p1 = new JPanel();
+            p2 = new JPanel();
+            p7 = new JPanel();
+
+            p1.add(lab1);
+            p1.add(champ1);
+            p2.add(lab2);
+            p2.add(champ2);
+            p7.add(rechercher);
+
+            this.add(p1);
+            this.add(p2);
+            this.add(p7);
+        }
+        else if(source=="docteur")
+        {
+            lab1 = new JLabel("Numero", JLabel.CENTER);
+            // creation des panneaux
+            p1 = new JPanel();
+            p7 = new JPanel();
+
+            p1.add(lab1);
+            p1.add(champ1);
+            p7.add(rechercher);
+
+            this.add(p1);
+            this.add(p7);
+        }
+        else if(source=="employe")
+        {
+            lab1 = new JLabel("Numero", JLabel.CENTER);
+
+            // creation des panneaux
+            p1 = new JPanel();
+            p7 = new JPanel();
+
+            p1.add(lab1);
+            p1.add(champ1);
+            p7.add(rechercher);
+
+            this.add(p1);
+            this.add(p7);
+        }
+        else if(source=="hospitalisation")
+        {
+            lab1 = new JLabel("Numero malade", JLabel.CENTER);
+
+            // creation des panneaux
+            p1 = new JPanel();
+            p7 = new JPanel();
+            
+            p1.add(lab1);
+            p1.add(champ1);
+            p7.add(rechercher);
+
+            this.add(p1);
+            this.add(p7);
+        }
+        else if(source=="infirmier")
+        {
+            lab1 = new JLabel("Numero", JLabel.CENTER);
+
+            // creation des panneaux
+            p1 = new JPanel();
+            p9 = new JPanel();
+
+            p1.add(lab1);
+            p1.add(champ1);
+            p9.add(rechercher);
+            
+            this.add(p1);
+            this.add(p9);
+        }
+        else if(source=="malade")
+        {
+            lab1 = new JLabel("Numero", JLabel.CENTER); 
+
+            // creation des panneaux
+            p1 = new JPanel();
+            p7 = new JPanel();
+
+            p1.add(lab1);
+            p1.add(champ1);
+            p7.add(rechercher);
+            
+            this.add(p1);
+            this.add(p7);
+        }
+        else if(source=="service")
+        {
+            lab1 = new JLabel("Code", JLabel.CENTER);
+
+            // creation des panneaux
+            p1 = new JPanel();
+            p5 = new JPanel();
+
+            p1.add(lab1);
+            p1.add(champ1);
+            p5.add(rechercher);
+            
+            this.add(p1);
+            this.add(p5);
+        }
+        else if(source=="soigne")
+        {
+            lab1 = new JLabel("Numero docteur", JLabel.CENTER);
+            lab2 = new JLabel("Numero malade", JLabel.CENTER);
+
+            // creation des panneaux
+            p1 = new JPanel();
+            p2 = new JPanel();
+            p3 = new JPanel();
+
+            p1.add(lab1);
+            p1.add(champ1);
+            p2.add(lab2);
+            p2.add(champ2);
+            p3.add(rechercher);
+            
+            this.add(p1);
+            this.add(p2);
+            this.add(p3);
+        }
+        else
+            JOptionPane.showMessageDialog(this,"Modification impossible ! Veuillez réessayer ","Warning",JOptionPane.WARNING_MESSAGE);
+        
+        rechercher.addActionListener(this);
+    }  
 }

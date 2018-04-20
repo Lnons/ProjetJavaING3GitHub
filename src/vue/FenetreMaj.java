@@ -47,7 +47,8 @@ public class FenetreMaj extends JFrame implements ActionListener, ItemListener {
     private String title[];
     private JTable tableau;
     private final JButton ajouter = new JButton("Ajouter un objet à la table");
-    private final JButton afficher = new JButton("Afficher la table");
+    private final JButton afficher = new JButton("Afficher la table");  
+    private final JButton modifier = new JButton("Modifier un objet de la table");
     private final JButton supprimer = new JButton("Supprimer un objet de la table");
     
     public FenetreMaj(FenetreMenu fen) throws ClassNotFoundException
@@ -84,12 +85,17 @@ public class FenetreMaj extends JFrame implements ActionListener, ItemListener {
         JPanel b1 = new JPanel();
         b1.add(combo_table);
         b1.add(afficher);
-        b1.add(ajouter);
-        b1.add(supprimer);
-        ajouter.addActionListener(this);
-        supprimer.addActionListener(this);
         afficher.addActionListener(this);
         combo_table.addActionListener(this);
+        
+        JPanel b2 = new JPanel();
+        b2.add(ajouter);
+        b2.add(modifier);
+        b2.add(supprimer);
+        ajouter.addActionListener(this);
+        modifier.addActionListener(this);
+        supprimer.addActionListener(this);
+        
         
         this.getContentPane().add(b0);
         
@@ -126,6 +132,9 @@ public class FenetreMaj extends JFrame implements ActionListener, ItemListener {
         }
         if (source == ajouter) {
                     FenetreMaj2 fen = new FenetreMaj2(combo_table.getSelectedItem(),1);
+        }
+        if (source == modifier) {
+                    FenetreMaj2 fen = new FenetreMaj2(combo_table.getSelectedItem(),3);
         }
         if (source == supprimer) {
                     FenetreMaj2 fen = new FenetreMaj2(combo_table.getSelectedItem(),2);
