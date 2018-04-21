@@ -47,7 +47,7 @@ public class FenetreMaj extends JFrame implements ActionListener, ItemListener {
     private String title[];
     private JTable tableau;
     private final JButton ajouter = new JButton("Ajouter un objet à la table");
-    private final JButton afficher = new JButton("Afficher la table");  
+    private final JButton afficher = new JButton("Afficher la table");
     private final JButton modifier = new JButton("Modifier un objet de la table");
     private final JButton supprimer = new JButton("Supprimer un objet de la table");
     
@@ -95,7 +95,6 @@ public class FenetreMaj extends JFrame implements ActionListener, ItemListener {
         ajouter.addActionListener(this);
         modifier.addActionListener(this);
         supprimer.addActionListener(this);
-        
         
         this.getContentPane().add(b0);
         

@@ -143,7 +143,7 @@ public class FenetreRecherche extends JFrame implements ActionListener, ItemList
             System.out.println("executer");
             System.out.println("ActionListener : action sur " + combo_requete.getSelectedItem());
             try {
-            FenetreRes resultat_recherche = new FenetreRes(combo_requete.getSelectedItem());
+            FenetreRes resultat_recherche = new FenetreRes(combo_requete.getSelectedItem(),null,"");
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(FenetreRecherche.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -154,7 +154,17 @@ public class FenetreRecherche extends JFrame implements ActionListener, ItemList
         if (source == rechercher) { 
             System.out.println(texte.getText());
             try {
-                FenetreRes resultat_recherche = new FenetreRes(combo_table1.getSelectedItem());
+                //si on veut afficher une table selon un attribut et/ou un texte tapé au clavier
+                if(!texte.getText().isEmpty())
+                {
+                    FenetreRes resultat_recherche = new FenetreRes(combo_table1.getSelectedItem()
+                            ,combo_attribut1.getSelectedItem(),texte.getText());
+                }
+                //si on veut afficher toute la table sélectionnée
+                else 
+                {
+                    FenetreRes resultat_recherche = new FenetreRes(combo_table1.getSelectedItem(),null,"");
+                }   
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(FenetreRecherche.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -183,12 +193,16 @@ public class FenetreRecherche extends JFrame implements ActionListener, ItemList
         }
         if(source=="docteur")
         {
-            combo.addItem("numero");
+            combo.addItem("NUMERO");
+            combo.addItem("NOM");
+            combo.addItem("PRENOM");
+            combo.addItem("TEL");
+            combo.addItem("ADRESSE");
             combo.addItem("specialite");
         }
         if(source=="employe")
         {
-            combo.addItem("numero");
+            combo.addItem("NUMERO");
             combo.addItem("NOM");
             combo.addItem("PRENOM");
             combo.addItem("TEL");
@@ -204,6 +218,10 @@ public class FenetreRecherche extends JFrame implements ActionListener, ItemList
         if(source=="infirmier")
         {
             combo.addItem("NUMERO");
+            combo.addItem("NOM");
+            combo.addItem("PRENOM");
+            combo.addItem("TEL");
+            combo.addItem("ADRESSE");
             combo.addItem("CODE_SERVICE");
             combo.addItem("ROTATION");
             combo.addItem("SALAIRE");

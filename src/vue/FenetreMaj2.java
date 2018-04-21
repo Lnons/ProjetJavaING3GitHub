@@ -130,6 +130,12 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
         if (source == fermer) {
                     this.dispose();
         }
+        if (source == combo_attribut) {
+            if(source_prec.equals("chambre") || source_prec.equals("hospitalisation"))
+                    champ2.setText((String)combo_attribut.getSelectedItem());
+            if(source_prec=="infirmier" || source_prec=="docteur")
+                    champ6.setText((String)combo_attribut.getSelectedItem());
+        }
         if (source == terminer) {
            
             try {
@@ -242,19 +248,6 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
                     blindage=true;
             }
         }
-        else if(source=="employe")
-        {
-            System.out.println("oui");
-            for(int i=0 ; i<5 ; i++)
-            {
-                if(champ_rempli[i]=="")
-                {
-                    blindage=true;
-                }
-                if(valid_int(champ_rempli[0])==true)
-                    blindage=true;
-            }
-        }
         else if(source=="hospitalisation")
         {
             System.out.println("oui");
@@ -296,18 +289,6 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
             if(valid_int(champ_rempli[0])==true)
                     blindage=true;
         }
-        else if(source=="service")
-        {
-            for(int i=0 ; i<4 ; i++)
-            {
-                if(champ_rempli[i]=="")
-                {
-                    blindage=true;
-                }
-            }
-            if(valid_int(champ_rempli[0])==true || valid_int(champ_rempli[3])==true)
-                    blindage=true;
-        }
         else if(source=="soigne")
         {
             for(int i=0 ; i<2 ; i++)
@@ -344,10 +325,6 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
                     champ_rempli[3],champ_rempli[4],champ_rempli[5]);
             doc.addDocteur();
         }
-        else if(source=="employe") //a supprimer
-        {
-            System.out.println("Impossible");
-        }
         else if(source=="hospitalisation")
         {
             hospitalisation hos = new hospitalisation (champ_rempli[0], champ_rempli[1],champ_rempli[2],
@@ -365,10 +342,6 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
             malade mal = new malade (champ_rempli[0], champ_rempli[1],champ_rempli[2],
                     champ_rempli[3],champ_rempli[4],champ_rempli[5]);
             mal.addMalade();
-        }
-        else if(source=="service") //a supprimer
-        {
-            System.out.println("Impossible");
         }
         else if(source=="soigne")
         {
@@ -410,16 +383,6 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
                 blindage=true;
             
         }
-        else if(source=="employe")
-        {
-            if(champ_rempli[0]=="")
-            {
-                blindage=true;
-            }
-            if(valid_int(champ_rempli[0])==true)
-                blindage=true;
-
-        }
         else if(source=="hospitalisation")
         {
             if(champ_rempli[0]=="")
@@ -444,15 +407,6 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
             {
                 blindage=true;
             }            
-            if(valid_int(champ_rempli[0])==true)
-                    blindage=true;
-        }
-        else if(source=="service")
-        {
-            if(champ_rempli[0]=="")
-            {
-                blindage=true;
-            }
             if(valid_int(champ_rempli[0])==true)
                     blindage=true;
         }
@@ -489,10 +443,6 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
             docteur doc = new docteur();
             doc.suppDocteur(champ_rempli[0]);
         }
-        else if(source=="employe") //a supprimer
-        {
-            System.out.println("Impossible");
-        }
         else if(source=="hospitalisation")
         {
             hospitalisation hos = new hospitalisation();
@@ -507,10 +457,6 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
         {
             malade mal = new malade();
             mal.suppMalade(champ_rempli[0]);
-        }
-        else if(source=="service") //a supprimer
-        {
-            System.out.println("Impossible");
         }
         else if(source=="soigne")
         {
@@ -551,16 +497,6 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
                 blindage=true;
             
         }
-        else if(source=="employe")
-        {
-            if(champ_rempli[0]=="")
-            {
-                blindage=true;
-            }
-            if(valid_int(champ_rempli[0])==true)
-                blindage=true;
-
-        }
         else if(source=="hospitalisation")
         {
             if(champ_rempli[0]=="")
@@ -585,15 +521,6 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
             {
                 blindage=true;
             }            
-            if(valid_int(champ_rempli[0])==true)
-                    blindage=true;
-        }
-        else if(source=="service")
-        {
-            if(champ_rempli[0]=="")
-            {
-                blindage=true;
-            }
             if(valid_int(champ_rempli[0])==true)
                     blindage=true;
         }
@@ -682,10 +609,6 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
             System.out.println("attribut à changer :" + attribut_choisi);
             System.out.println("nouvel attribut taper a ecran :" + champ_maj);
         }
-        else if(source=="employe")
-        {
-            
-        }
         else if(source=="hospitalisation")
         {
             
@@ -699,10 +622,6 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
             System.out.println("primary key :" + champ_rempli[0]);
             System.out.println("attribut à changer :" + attribut_choisi);
             System.out.println("nouvel attribut taper a ecran :" + champ_maj);
-        }
-        else if(source=="service")
-        {
-            
         }
         else if(source=="soigne")
         {
@@ -728,16 +647,12 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
         }
         if(source=="docteur")
         {
-            combo.addItem("numero");
-            combo.addItem("specialite");
-        }
-        if(source=="employe")
-        {
-            combo.addItem("numero");
+            combo.addItem("NUMERO");
             combo.addItem("NOM");
             combo.addItem("PRENOM");
             combo.addItem("TEL");
             combo.addItem("ADRESSE");
+            combo.addItem("SPECIALITE");
         }
         if(source=="hospitalisation")
         {
@@ -749,6 +664,10 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
         if(source=="infirmier")
         {
             combo.addItem("NUMERO");
+            combo.addItem("NOM");
+            combo.addItem("PRENOM");
+            combo.addItem("TEL");
+            combo.addItem("ADRESSE");
             combo.addItem("CODE_SERVICE");
             combo.addItem("ROTATION");
             combo.addItem("SALAIRE");
@@ -822,17 +741,22 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
             p3 = new JPanel();
             p4 = new JPanel();
             p7 = new JPanel();
+            
+            combo_attribut.removeAllItems();
+            String [] chambre = {"REA","CHG","CAR"};
+            combo_attribut = new JComboBox(chambre);
 
             p1.add(lab1);
             p1.add(champ1);
             p2.add(lab2);
-            p2.add(champ2);
+            p2.add(combo_attribut);
             p3.add(lab3);
             p3.add(champ3);
             p4.add(lab4);
             p4.add(champ4);
             p7.add(terminer);
-
+            combo_attribut.addActionListener(this);
+           
             this.add(p1);
             this.add(p2);
             this.add(p3);
@@ -856,6 +780,10 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
             p5 = new JPanel();
             p6 = new JPanel();
             p7 = new JPanel();
+            
+            combo_attribut.removeAllItems();
+            String [] docteur = {"Anesthesiste","Cardiologue","Orthopediste","Pneumologue","Radiologue","Traumatologue"};
+            combo_attribut = new JComboBox(docteur);
 
             p1.add(lab1);
             p1.add(champ1);
@@ -868,8 +796,9 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
             p5.add(lab5);
             p5.add(champ5);
             p6.add(lab6);
-            p6.add(champ6);
+            p6.add(combo_attribut);
             p7.add(terminer);
+            combo_attribut.addActionListener(this);
 
             this.add(p1);
             this.add(p2);
@@ -881,38 +810,7 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
         }
         else if(source=="employe")
         {
-            lab1 = new JLabel("Numero", JLabel.CENTER);
-            lab2 = new JLabel("Nom", JLabel.CENTER);
-            lab3 = new JLabel("Prenom", JLabel.CENTER);
-            lab4 = new JLabel("Tel", JLabel.CENTER);
-            lab5 = new JLabel("Adresse", JLabel.CENTER);
-
-            // creation des panneaux
-            p1 = new JPanel();
-            p2 = new JPanel();
-            p3 = new JPanel();
-            p4 = new JPanel();
-            p5 = new JPanel();
-            p7 = new JPanel();
-
-            p1.add(lab1);
-            p1.add(champ1);
-            p2.add(lab2);
-            p2.add(champ2);
-            p3.add(lab3);
-            p3.add(champ3);
-            p4.add(lab4);
-            p4.add(champ4);
-            p5.add(lab5);
-            p5.add(champ5);
-            p7.add(terminer);
-
-            this.add(p1);
-            this.add(p2);
-            this.add(p3);
-            this.add(p4);
-            this.add(p5);
-            this.add(p7);
+            JOptionPane.showMessageDialog(this,"Impossible d'ajouter un Employé ! Veuillez créer un Employé à partir de la table Docteur ou Infirmier ","Warning",JOptionPane.WARNING_MESSAGE);        
         }
         else if(source=="hospitalisation")
         {
@@ -928,15 +826,20 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
             p4 = new JPanel();
             p7 = new JPanel();
             
+            combo_attribut.removeAllItems();
+            String [] chambre = {"REA","CHG","CAR"};
+            combo_attribut = new JComboBox(chambre);
+            
             p1.add(lab1);
             p1.add(champ1);
             p2.add(lab2);
-            p2.add(champ2);
+            p2.add(combo_attribut);
             p3.add(lab3);
             p3.add(champ3);
             p4.add(lab4);
             p4.add(champ4);
             p7.add(terminer);
+            combo_attribut.addActionListener(this);
 
             this.add(p1);
             this.add(p2);
@@ -965,6 +868,10 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
             p7 = new JPanel();
             p8 = new JPanel();
             p9 = new JPanel();
+            
+            combo_attribut.removeAllItems();
+            String [] chambre = {"REA","CHG","CAR"};
+            combo_attribut = new JComboBox(chambre);
 
             p1.add(lab1);
             p1.add(champ1);
@@ -977,12 +884,13 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
             p5.add(lab5);
             p5.add(champ5);
             p6.add(lab6);
-            p6.add(champ6);
+            p6.add(combo_attribut);
             p7.add(lab7);
             p7.add(champ7);
             p8.add(lab8);
             p8.add(champ8);
             p9.add(terminer);
+            combo_attribut.addActionListener(this);
             
             this.add(p1);
             this.add(p2);
@@ -1036,33 +944,7 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
         }
         else if(source=="service")
         {
-            lab1 = new JLabel("Code", JLabel.CENTER);
-            lab2 = new JLabel("Nom", JLabel.CENTER);
-            lab3 = new JLabel("Batiment", JLabel.CENTER);
-            lab4 = new JLabel("Directeur", JLabel.CENTER);
-
-            // creation des panneaux
-            p1 = new JPanel();
-            p2 = new JPanel();
-            p3 = new JPanel();
-            p4 = new JPanel();
-            p5 = new JPanel();
-
-            p1.add(lab1);
-            p1.add(champ1);
-            p2.add(lab2);
-            p2.add(champ2);
-            p3.add(lab3);
-            p3.add(champ3);
-            p4.add(lab4);
-            p4.add(champ4);
-            p5.add(terminer);
-            
-            this.add(p1);
-            this.add(p2);
-            this.add(p3);
-            this.add(p4);
-            this.add(p5);
+            JOptionPane.showMessageDialog(this,"Donnée privée ! Impossible d'ajouter un Service  ","Warning",JOptionPane.WARNING_MESSAGE);        
         }
         else if(source=="soigne")
         {
@@ -1129,18 +1011,7 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
         }
         else if(source=="employe")
         {
-            lab1 = new JLabel("Numero", JLabel.CENTER);
-
-            // creation des panneaux
-            p1 = new JPanel();
-            p7 = new JPanel();
-
-            p1.add(lab1);
-            p1.add(champ1);
-            p7.add(supprimer);
-
-            this.add(p1);
-            this.add(p7);
+            JOptionPane.showMessageDialog(this,"Impossible de supprimer un Employé ! Veuillez supprimer un Employé à partir de la table Docteur ou Infirmier ","Warning",JOptionPane.WARNING_MESSAGE);        
         }
         else if(source=="hospitalisation")
         {
@@ -1189,18 +1060,7 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
         }
         else if(source=="service")
         {
-            lab1 = new JLabel("Code", JLabel.CENTER);
-
-            // creation des panneaux
-            p1 = new JPanel();
-            p5 = new JPanel();
-
-            p1.add(lab1);
-            p1.add(champ1);
-            p5.add(supprimer);
-            
-            this.add(p1);
-            this.add(p5);
+            JOptionPane.showMessageDialog(this,"Donnée privée ! Impossible de supprimer un Service  ","Warning",JOptionPane.WARNING_MESSAGE);        
         }
         else if(source=="soigne")
         {
@@ -1266,18 +1126,7 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
         }
         else if(source=="employe")
         {
-            lab1 = new JLabel("Numero", JLabel.CENTER);
-
-            // creation des panneaux
-            p1 = new JPanel();
-            p7 = new JPanel();
-
-            p1.add(lab1);
-            p1.add(champ1);
-            p7.add(rechercher);
-
-            this.add(p1);
-            this.add(p7);
+            JOptionPane.showMessageDialog(this,"Impossible de modifier un Employé ! Veuillez modifier un Employé à partir de la table Docteur ou Infirmier ","Warning",JOptionPane.WARNING_MESSAGE);        
         }
         else if(source=="hospitalisation")
         {
@@ -1326,18 +1175,7 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
         }
         else if(source=="service")
         {
-            lab1 = new JLabel("Code", JLabel.CENTER);
-
-            // creation des panneaux
-            p1 = new JPanel();
-            p5 = new JPanel();
-
-            p1.add(lab1);
-            p1.add(champ1);
-            p5.add(rechercher);
-            
-            this.add(p1);
-            this.add(p5);
+            JOptionPane.showMessageDialog(this,"Donnée privée ! Impossible de modifier un Service  ","Warning",JOptionPane.WARNING_MESSAGE);        
         }
         else if(source=="soigne")
         {
@@ -1363,5 +1201,5 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
             JOptionPane.showMessageDialog(this,"Modification impossible ! Veuillez réessayer ","Warning",JOptionPane.WARNING_MESSAGE);
         
         rechercher.addActionListener(this);
-    }  
+    }   
 }

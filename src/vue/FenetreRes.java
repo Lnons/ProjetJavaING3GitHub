@@ -29,7 +29,7 @@ public final class FenetreRes extends JFrame implements ActionListener, ItemList
     private String title[];
     private String requete;
     
-    public FenetreRes(Object source) throws ClassNotFoundException
+    public FenetreRes(Object source, Object source2, String s) throws ClassNotFoundException
     {
         // creation par heritage de la fenetre
         super("Fenetre Resultat");
@@ -57,21 +57,28 @@ public final class FenetreRes extends JFrame implements ActionListener, ItemList
         b0.add(fermer);
         fermer.addActionListener(this);
         
+        //si on veut afficher une requete prédéfinie
         if(choix_requete(source)==true)
         {
+            //on appele une methode qui va chercher notre requete dans base de donnée
             this.afficher_requete(source,requete);
         }
-        else if(choix_requete(source)==false)
+        //si on veut afficher une table entière
+        else if(choix_requete(source)==false && s.isEmpty())
         {
             //on appele une methode qui va chercher notre requete dans base de donnée
             this.afficherLignes(source);
+        }
+        //si on veut faire une recherche avancée : une table selon un attribut et un champ tapé à l'écran
+        else if(source2!=null && !s.isEmpty())
+        {
+            System.out.println("recherche avancee");
         }
                
         //ON MET EN PLACE LA DISPOSITION DE NOS BOUTONS
         this.getContentPane().add(b0);
         this.getContentPane().add(titre);
         this.getContentPane().add(new JScrollPane(tableau));
-
         this.setVisible(true);
         
         // pour fermer la fenetre
@@ -155,6 +162,40 @@ public final class FenetreRes extends JFrame implements ActionListener, ItemList
 
             // recuperer la liste de la table sélectionnée
             String requeteSelectionnee = requete + ";";
+            liste = maconnexion.remplirChampsRequete(requeteSelectionnee);
+            Object[][]data = new Object[liste.size()][taille_tableau];
+            
+            // afficher les lignes de la requete selectionnee a partir de la liste
+            for (String liste1 : liste) {
+                //resultat.addItem(liste1);
+                for(int j=0 ; j<taille_table(source) ; j++)
+                {
+                    data[i][j]=separe_colonne(source,liste1,taille_tableau)[j]; 
+                }   
+                i++;
+            }   
+            title=entete(source);
+            tableau = new JTable(data, title);
+        
+        } catch (SQLException e) {
+            // afficher l'erreur dans les résultats
+            fenetreRes.setText("");
+            fenetreRes.append("Echec table SQL");
+            e.printStackTrace();
+        }
+    }
+    
+    public void afficher_avancee(Object source, Object source2, String s) throws ClassNotFoundException {
+        int taille_tableau=taille_table(source);
+        title= new String[taille_tableau];
+        try {
+            int i=0;
+            ArrayList<String> liste;
+            Connexion maconnexion = new Connexion("hopital","root","");
+
+            // recuperer la liste de la table sélectionnée
+            String requeteSelectionnee = "select " + source + "." + source2 + " from " 
+                    + source + " where " + source + "." + source2 + " like " + "'" + s + "%'" + ";";
             liste = maconnexion.remplirChampsRequete(requeteSelectionnee);
             Object[][]data = new Object[liste.size()][taille_tableau];
             
@@ -322,12 +363,12 @@ public final class FenetreRes extends JFrame implements ActionListener, ItemList
         }
         if(source=="docteur")
         {
-            String entete[]={"numero","specialite"};
+            String entete[]={"NUMERO","SPECIALITE"};
             return entete;
         }
         if(source=="employe")
         {
-            String entete[]={"numero","NOM","PRENOM","ADRESSE","TEL"};
+            String entete[]={"NUMERO","NOM","PRENOM","ADRESSE","TEL"};
             return entete;
         }
         if(source=="hospitalisation")
@@ -342,7 +383,7 @@ public final class FenetreRes extends JFrame implements ActionListener, ItemList
         }
         if(source=="malade")
         {
-            String entete[]={"numero","NOM","PRENOM","ADRESSE","TEL","MUTUELLE"};
+            String entete[]={"NUMERO","NOM","PRENOM","ADRESSE","TEL","MUTUELLE"};
             return entete;
         }
         if(source=="service")
