@@ -28,6 +28,7 @@ public final class FenetreRes extends JFrame implements ActionListener, ItemList
     private JTable tableau;
     private String title[];
     private String requete;
+    private int nombre_res;
     
     public FenetreRes(Object source, Object source2, String s) throws ClassNotFoundException
     {
@@ -42,14 +43,7 @@ public final class FenetreRes extends JFrame implements ActionListener, ItemList
         setLocationRelativeTo(null);
         
         //on cadrille notre fenetre
-        this.setLayout(new GridLayout(4,1));
-        
-        // creation des labels
-        titre = new JLabel("Resultat ", JLabel.CENTER);
-        
-        //taille des labels
-        Font font = new Font("Arial",Font.BOLD,20);
-        titre.setFont(font);   
+        this.setLayout(new GridLayout(4,1)); 
         
         //on crée notre bouton
         b0 = new JPanel();
@@ -72,8 +66,15 @@ public final class FenetreRes extends JFrame implements ActionListener, ItemList
         //si on veut faire une recherche avancée : une table selon un attribut et un champ tapé à l'écran
         else if(source2!=null && !s.isEmpty())
         {
-            System.out.println("recherche avancee");
+            afficher_avancee(source,source2,s);
         }
+        
+        // creation des labels
+        titre = new JLabel("Resultat : " + nombre_res, JLabel.CENTER);
+        
+        //taille des labels
+        Font font = new Font("Arial",Font.BOLD,20);
+        titre.setFont(font); 
                
         //ON MET EN PLACE LA DISPOSITION DE NOS BOUTONS
         this.getContentPane().add(b0);
@@ -131,6 +132,7 @@ public final class FenetreRes extends JFrame implements ActionListener, ItemList
             String requeteSelectionnee = "select * from " + source + ";";
             liste = maconnexion.remplirChampsRequete(requeteSelectionnee);
             Object[][]data = new Object[liste.size()][taille_tableau];
+            nombre_res = liste.size();
             
             // afficher les lignes de la requete selectionnee a partir de la liste
             for (String liste1 : liste) {
@@ -164,6 +166,7 @@ public final class FenetreRes extends JFrame implements ActionListener, ItemList
             String requeteSelectionnee = requete + ";";
             liste = maconnexion.remplirChampsRequete(requeteSelectionnee);
             Object[][]data = new Object[liste.size()][taille_tableau];
+            nombre_res = liste.size();
             
             // afficher les lignes de la requete selectionnee a partir de la liste
             for (String liste1 : liste) {
@@ -185,19 +188,38 @@ public final class FenetreRes extends JFrame implements ActionListener, ItemList
         }
     }
     
-    public void afficher_avancee(Object source, Object source2, String s) throws ClassNotFoundException {
-        int taille_tableau=taille_table(source);
-        title= new String[taille_tableau];
+    public void afficher_avancee(Object table, Object attribut, String s) throws ClassNotFoundException {
+        Object source = table;
+        Object source2 = attribut;    
         try {
             int i=0;
             ArrayList<String> liste;
             Connexion maconnexion = new Connexion("hopital","root","");
 
             // recuperer la liste de la table sélectionnée
-            String requeteSelectionnee = "select " + source + "." + source2 + " from " 
-                    + source + " where " + source + "." + source2 + " like " + "'" + s + "%'" + ";";
+            String requeteSelectionnee = "select * from " 
+                + source + " where " + source + "." + source2 + " like " + "'" + s + "%'" + ";";
+            
+            if(source.equals("docteur") && !source2.equals("SPECIALITE") && !source2.equals("NUMERO") )
+            {
+                source="employe";
+                 requeteSelectionnee = "select * from " 
+                + source + " where " + source + "." + source2 + " like " + "'" + s + "%'" + ";";
+            }
+            if(source.equals("infirmier") && !source2.equals("ROTATION") && !source2.equals("NUMERO") 
+                    && !source2.equals("CODE_SERVICE") && !source2.equals("SALAIRE") )
+            {
+                source="employe";
+                 requeteSelectionnee = "select * from " 
+                + source + " where " + source + "." + source2 + " like " + "'" + s + "%'" + ";";
+            }
+            
+            int taille_tableau=taille_table(source);
+            title= new String[taille_tableau];
+            System.out.println(requeteSelectionnee);
             liste = maconnexion.remplirChampsRequete(requeteSelectionnee);
             Object[][]data = new Object[liste.size()][taille_tableau];
+            nombre_res = liste.size();
             
             // afficher les lignes de la requete selectionnee a partir de la liste
             for (String liste1 : liste) {
