@@ -71,4 +71,30 @@ public class soigne {
         
     }
     
+        public void modifierSoigne(String champ_maj, String attribut_choisi, String primarykey) throws SQLException, ClassNotFoundException
+    { 
+        String mod;
+        String Anciennumero=primarykey;
+        String requeteSoigne;
+        
+        
+        
+        Connexion co=new Connexion("hopital","root","root");
+        
+        
+        switch (attribut_choisi) {
+            case "NO_DOCTEUR":
+                requeteSoigne="UPDATE soigne SET no_docteur="+champ_maj+" WHERE no_docteur="+Anciennumero+";";
+                co.executeUpdate(requeteSoigne);
+                break;
+            case "NO_MALADE":
+                requeteSoigne="UPDATE soigne SET no_malade="+champ_maj+" WHERE no_docteur="+Anciennumero+";";
+                co.executeUpdate(requeteSoigne);
+                break;
+            default:
+                break;
+        }
+        
+    }
+    
 }

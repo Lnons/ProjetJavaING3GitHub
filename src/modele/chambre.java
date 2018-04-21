@@ -88,6 +88,39 @@ public class chambre {
         Connexion co=new Connexion("hopital","root","root");
         co.executeUpdate(requeteChambre);
         
+    }
+    
+    public void modifierChambre(String champ_maj, String attribut_choisi, String primarykey) throws SQLException, ClassNotFoundException
+    { 
+        String mod;
+        String Anciennumero=primarykey;
+        String requeteChambre;
+        
+        
+        
+        Connexion co=new Connexion("hopital","root","root");
+        
+        
+        switch (attribut_choisi) {
+            case "CODE_SERVICE":
+                requeteChambre="UPDATE chambre SET code_service='"+champ_maj+"' WHERE no_chambre="+Anciennumero+";";
+                co.executeUpdate(requeteChambre);
+                break;
+            case "NO_CHAMBRE":
+                requeteChambre="UPDATE chambre SET no_chambre="+champ_maj+" WHERE no_chambre="+Anciennumero+";";
+                co.executeUpdate(requeteChambre);
+                break;
+            case "SURVEILLANT":
+                requeteChambre="UPDATE chambre SET surveillant="+champ_maj+" WHERE no_chambre="+Anciennumero+";";
+                co.executeUpdate(requeteChambre);
+                break;
+            case "NB_LITS":
+                requeteChambre="UPDATE chambre SET nb_lits="+champ_maj+" WHERE no_chambre="+Anciennumero+";";
+                co.executeUpdate(requeteChambre);
+                break;
+            default:
+                break;
+        }
         
     }
     

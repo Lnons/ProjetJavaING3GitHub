@@ -112,4 +112,46 @@ public class malade {
         
     }
     
+        public void modifierMalade(String champ_maj, String attribut_choisi, String primarykey) throws SQLException, ClassNotFoundException
+    { 
+        String mod;
+        String Anciennumero=primarykey;
+        String requeteMalade;
+        
+        
+        
+        Connexion co=new Connexion("hopital","root","root");
+        
+        
+        switch (attribut_choisi) {
+            case "NUMERO":
+                requeteMalade="UPDATE malade SET numero="+champ_maj+" WHERE numero="+Anciennumero+";";
+                co.executeUpdate(requeteMalade);
+                break;
+            case "NOM":
+                requeteMalade="UPDATE malade SET nom='"+champ_maj+"' WHERE numero="+Anciennumero+";";
+                co.executeUpdate(requeteMalade);
+                break;
+            case "PRENOM":
+                requeteMalade="UPDATE malade SET prenom='"+champ_maj+"' WHERE numero="+Anciennumero+";";
+                co.executeUpdate(requeteMalade);
+                break;
+            case "ADRESSE":
+                requeteMalade="UPDATE malade SET adresse='"+champ_maj+"' WHERE numero="+Anciennumero+";";
+                co.executeUpdate(requeteMalade);
+                break;
+            case "TEL":
+                requeteMalade="UPDATE malade SET tel='"+champ_maj+"' WHERE numero="+Anciennumero+";";
+                co.executeUpdate(requeteMalade);
+                break;
+            case "MUTUELLE":
+                requeteMalade="UPDATE malade SET mutuelle='"+champ_maj+"' WHERE numero="+Anciennumero+";";
+                co.executeUpdate(requeteMalade);
+                break;
+            default:
+                break;
+        }
+        
+    }
+    
 }

@@ -129,4 +129,56 @@ public class infirmier extends employe{
         
     }
     
-}
+        public void modifierInfirmier(String champ_maj, String attribut_choisi, String primarykey) throws SQLException, ClassNotFoundException
+    { 
+        String mod;
+        String Anciennumero=primarykey;
+        String requeteInfirmier;
+        String requeteEmploye;
+        
+        
+        
+        Connexion co=new Connexion("hopital","root","root");
+        
+        
+        switch (attribut_choisi) {
+            case "NUMERO":
+                requeteInfirmier="UPDATE infirmier SET numero="+champ_maj+" WHERE numero="+Anciennumero+";";
+                requeteEmploye="UPDATE employe SET numero="+champ_maj+" WHERE numero="+Anciennumero+";";
+                co.executeUpdate(requeteEmploye);
+                co.executeUpdate(requeteInfirmier);
+                break;
+            case "NOM":
+                requeteEmploye="UPDATE employe SET nom='"+champ_maj+"' WHERE numero="+Anciennumero+";";
+                co.executeUpdate(requeteEmploye);
+                break;
+            case "PRENOM":
+                requeteEmploye="UPDATE employe SET prenom='"+champ_maj+"' WHERE numero="+Anciennumero+";";
+                co.executeUpdate(requeteEmploye);
+                break;
+            case "ADRESSE":
+                requeteEmploye="UPDATE employe SET adresse='"+champ_maj+"' WHERE numero="+Anciennumero+";";
+                co.executeUpdate(requeteEmploye);
+                break;
+            case "TEL":
+                requeteEmploye="UPDATE employe SET tel='"+champ_maj+"' WHERE numero="+Anciennumero+";";
+                co.executeUpdate(requeteEmploye);
+                break;
+            case "CODE_SERVICE":
+                requeteInfirmier="UPDATE infirmier SET code_service='"+champ_maj+"' WHERE numero="+Anciennumero+";";
+                co.executeUpdate(requeteInfirmier);
+                break;
+            case "ROTATION":
+                requeteInfirmier="UPDATE infirmier SET rotation='"+champ_maj+"' WHERE numero="+Anciennumero+";";
+                co.executeUpdate(requeteInfirmier);
+                break;
+            case "SALAIRE":
+                requeteInfirmier="UPDATE infirmier SET salaire="+champ_maj+" WHERE numero="+Anciennumero+";";
+                co.executeUpdate(requeteInfirmier);
+                break;
+            default:
+                break;
+        }
+        
+    }
+} 

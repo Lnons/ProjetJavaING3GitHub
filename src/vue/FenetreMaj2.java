@@ -571,7 +571,7 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
         this.setVisible(true);
     }
     
-    public boolean modifier_objet(Object source, String champ_maj, String attribut_choisi) throws SQLException, ClassNotFoundException
+     public boolean modifier_objet(Object source, String champ_maj, String attribut_choisi) throws SQLException, ClassNotFoundException
     {
         /*
         Ici, champ_maj c'est le champ rempli par l'utilisateur. C'est le champ qui est mis
@@ -601,31 +601,50 @@ public class FenetreMaj2 extends JFrame implements ActionListener, ItemListener 
         
         if(source=="chambre")
         {
-            
+            chambre cha=new chambre();
+            cha.modifierChambre(champ_maj,attribut_choisi,champ_rempli[0]);
         }
         else if(source=="docteur")
         {
-            System.out.println("primary key :" + champ_rempli[0]);
+            docteur doc = new docteur();
+            doc.modifierDocteur(champ_maj,attribut_choisi,champ_rempli[0]);
+            /*System.out.println("primary key :" + champ_rempli[0]);
             System.out.println("attribut à changer :" + attribut_choisi);
             System.out.println("nouvel attribut taper a ecran :" + champ_maj);
+            */
+        }
+        else if(source=="employe") //a supprimer
+        {
+            System.out.println("Impossible");
         }
         else if(source=="hospitalisation")
         {
-            
+            hospitalisation hos=new hospitalisation();
+            hos.modifierHospitalisation(champ_maj, attribut_choisi, champ_rempli[0]);
         }
         else if(source=="infirmier")
         {
-            
+            infirmier inf=new infirmier();
+            inf.modifierInfirmier(champ_maj, attribut_choisi, champ_rempli[0]);
         }
         else if(source=="malade")
         {
-            System.out.println("primary key :" + champ_rempli[0]);
+            malade mal=new malade();
+            mal.modifierMalade(champ_maj, attribut_choisi, champ_rempli[0]);
+            
+            /*System.out.println("primary key :" + champ_rempli[0]);
             System.out.println("attribut à changer :" + attribut_choisi);
             System.out.println("nouvel attribut taper a ecran :" + champ_maj);
+            */
+        }
+        else if(source=="service") //a supprimer
+        {
+            System.out.println("Impossible");
         }
         else if(source=="soigne")
         {
-            
+            soigne soi=new soigne();
+            soi.modifierSoigne(champ_maj, attribut_choisi, champ_rempli[0]);
         }
         else
         {
