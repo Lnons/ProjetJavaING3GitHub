@@ -6,6 +6,7 @@
 package modele;
 
 import controleur.Connexion;
+import controleur.MaConnexion;
 import java.sql.SQLException;
 
 /**
@@ -17,6 +18,7 @@ public class hospitalisation {
     private String code_service;
     private String no_chambre;
     private String lit;
+    private static Connexion co=MaConnexion.get();
 
     public hospitalisation()
     {
@@ -71,10 +73,7 @@ public class hospitalisation {
     { 
       
         String requeteHospitalisation="insert into hospitalisation values ("+no_malade+",'"+code_service+"',"+no_chambre+","+lit+");";
-        
-        
-        
-        Connexion co=new Connexion("hopital","root","root");
+
         co.executeUpdate(requeteHospitalisation);
         
     }
@@ -84,8 +83,6 @@ public class hospitalisation {
         String numero=suppNum;
         
         String requeteHospitalisation="DELETE FROM hospitalisation WHERE no_malade="+numero+";";
-        
-        Connexion co=new Connexion("hopital","root","root");
         
         co.executeUpdate(requeteHospitalisation);
         
@@ -97,12 +94,7 @@ public class hospitalisation {
         String mod;
         String Anciennumero=primarykey;
         String requeteHospitalisation;
-        
-        
-        
-        Connexion co=new Connexion("hopital","root","root");
-        
-        
+  
         switch (attribut_choisi) {
             case "NO_MALADE":
                 requeteHospitalisation="UPDATE hospitalisation SET no_malade="+champ_maj+" WHERE no_malade="+Anciennumero+";";

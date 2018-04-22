@@ -41,7 +41,7 @@ public class FenetreLogin extends JFrame implements ActionListener, ItemListener
         setLocationRelativeTo(null);
         
         // creation des labels
-        titre = new JLabel("Bienvenue dans la base de donnée Hopital", JLabel.CENTER);
+        titre = new JLabel("Bienvenue dans la base de données Hopital", JLabel.CENTER);
         nomBDD = new JLabel("Nom de la Base :", JLabel.CENTER);
         loginBDD = new JLabel("Login :", JLabel.CENTER);
         passwdBDD = new JLabel("Password :", JLabel.CENTER);
@@ -65,11 +65,6 @@ public class FenetreLogin extends JFrame implements ActionListener, ItemListener
         p12 = new JPanel();
         p13 = new JPanel();
         p2 = new JPanel();
-        
-        // mise en page des panneaux
-       /* p0.setLayout(new GridLayout(1, 10));
-        p1.setLayout(new GridLayout(2, 5));
-        p2.setLayout(new GridLayout(3, 15));*/
         
         // ajout des objets graphqiues dans les panneaux
         p0.add(titre);
@@ -121,21 +116,18 @@ public class FenetreLogin extends JFrame implements ActionListener, ItemListener
 
         // tester cas de la commande evenementielle
         if (source == connect) {
+            //on recupere les données de login rentrées par l'utilisateur
             String nomBDDString = new String(nomBDDTexte.getText());
             String loginBDDString = new String(loginBDDTexte.getText());
             String passwdBDDString = new String(passwdBDDTexte.getPassword());
-            System.out.println("nom BDD = " + nomBDDString);
-            System.out.println("lgin BDD = " + loginBDDString);
-            System.out.println("passwd BDD = " + passwdBDDString);
             try {
                 try {
-                    // tentative de connexion si les 4 attributs sont remplis
-                    //maconnexion = new Connexion(nomBDDString, loginBDDString, passwdBDDString);
-                    maconnexion = new Connexion("hopital", "root", "");
-                    //debugg
-                    System.out.println("connexion ok");
-                    //on cache la premiere fenetre
-                    //this.setVisible(false);
+                    // tentative de connexion à la base locale
+                    maconnexion = new Connexion(nomBDDString, loginBDDString, passwdBDDString);
+                    //On stocke la connexion dans une classe
+                    MaConnexion co = new MaConnexion(maconnexion);
+                    //tentative de connexion à la base à distance
+                    //maconnexion = new Connexion(nameECETexte.getText(), passwdECEString,loginBDDTexte.getText(), passwdBDDString);
                     FenetreMenu fen = new FenetreMenu(this);
                 } catch (ClassNotFoundException cnfe) {
                     System.out.println("Connexion echouee : probleme de classe");

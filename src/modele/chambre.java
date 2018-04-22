@@ -5,7 +5,7 @@
  */
 package modele;
 
-import controleur.Connexion;
+import controleur.*;
 import java.sql.SQLException;
 
 /**
@@ -17,6 +17,8 @@ public class chambre {
     private String no_chambre;
     private String surveillant;
     private String nb_lits;
+    //recuperer la connexion à la base, lors du login
+    private static Connexion co=MaConnexion.get(); 
 
     public chambre()
     {
@@ -71,10 +73,6 @@ public class chambre {
     { 
       
         String requeteChambre="insert into chambre values ('"+code_service+"',"+no_chambre+","+surveillant+","+nb_lits+");";
-        
-        
-        
-        Connexion co=new Connexion("hopital","root","root");
         co.executeUpdate(requeteChambre);
         
     }
@@ -84,8 +82,6 @@ public class chambre {
         String service=suppService;
         
         String requeteChambre="DELETE FROM chambre WHERE no_chambre="+numero+" AND code_service='"+service+"';";
-        
-        Connexion co=new Connexion("hopital","root","root");
         co.executeUpdate(requeteChambre);
         
     }
@@ -95,11 +91,6 @@ public class chambre {
         String mod;
         String Anciennumero=primarykey;
         String requeteChambre;
-        
-        
-        
-        Connexion co=new Connexion("hopital","root","root");
-        
         
         switch (attribut_choisi) {
             case "CODE_SERVICE":

@@ -6,6 +6,7 @@
 package modele;
 
 import controleur.Connexion;
+import controleur.MaConnexion;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -17,6 +18,7 @@ public class infirmier extends employe{
     private String code_service;
     private String rotation;
     private String salaire;
+    private static Connexion co=MaConnexion.get();
 
     public infirmier()
     {
@@ -106,9 +108,7 @@ public class infirmier extends employe{
         
         String requeteEmploye="insert into employe values ("+numero+",'"+nom+"','"+prenom+"','"+adresse+"','"+tel+"');";
         String requeteInfirmier="insert into infirmier values ("+numero+",'"+code_service+"','"+rotation+"',"+salaire+");";
-        
-        
-        Connexion co=new Connexion("hopital","root","root");
+
         co.executeUpdate(requeteEmploye);
         co.executeUpdate(requeteInfirmier);
         
@@ -121,9 +121,7 @@ public class infirmier extends employe{
         
         String requeteInfirmier="DELETE FROM infirmier WHERE numero="+numero+";";
         String requeteEmploye="DELETE FROM employe WHERE numero="+numero+";";
-        
-        
-        Connexion co=new Connexion("hopital","root","root");
+
         co.executeUpdate(requeteInfirmier);
         co.executeUpdate(requeteEmploye);
         
@@ -135,12 +133,7 @@ public class infirmier extends employe{
         String Anciennumero=primarykey;
         String requeteInfirmier;
         String requeteEmploye;
-        
-        
-        
-        Connexion co=new Connexion("hopital","root","root");
-        
-        
+     
         switch (attribut_choisi) {
             case "NUMERO":
                 requeteInfirmier="UPDATE infirmier SET numero="+champ_maj+" WHERE numero="+Anciennumero+";";

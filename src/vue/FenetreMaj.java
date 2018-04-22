@@ -38,24 +38,25 @@ import javax.swing.table.TableCellRenderer;
 
 public class FenetreMaj extends JFrame implements ActionListener, ItemListener {
     private final JButton retour = new JButton("Retour");
-    private final JLabel titre;
-    private final String[] table = {"Choisissez une table...","chambre", "docteur", "employe","hospitalisation", "infirmier",
-            "malade","service", "soigne"};
-    private final JComboBox combo_table = new JComboBox(table);
-    private JPanel b1;
-    private JPanel b2 = new JPanel();
-    private String title[];
-    private JTable tableau;
     private final JButton ajouter = new JButton("Ajouter un objet à la table");
     private final JButton afficher = new JButton("Afficher la table");
     private final JButton modifier = new JButton("Modifier un objet de la table");
     private final JButton supprimer = new JButton("Supprimer un objet de la table");
+    private final JLabel titre;
+    private JPanel b1;
+    private JPanel b2 = new JPanel();
+    private String title[];
+    private JTable tableau;
+    private final String[] table = {"Choisissez une table...","chambre", "docteur", "employe","hospitalisation", "infirmier",
+            "malade","service", "soigne"};
+    private final JComboBox combo_table = new JComboBox(table);    
     
     public FenetreMaj(FenetreMenu fen) throws ClassNotFoundException
     {
         // creation par heritage de la fenetre
         super("Fenetre Mise à jour");
         
+        //on ferme la fenetre précédente
         fen.dispose();
         
         // mise en page (layout) de la fenetre visible
@@ -65,13 +66,13 @@ public class FenetreMaj extends JFrame implements ActionListener, ItemListener {
         setVisible(true);
         setLocationRelativeTo(null);
         
-        //on cadrille notre fenetre
+        //on quadrille notre fenetre
         this.setLayout(new GridLayout(6,1));
         
         // creation des labels
         titre = new JLabel("Mise à jour", JLabel.CENTER);
         
-        //taille des labels
+        //taille des labels et des boutons
         Font font = new Font("Arial",Font.BOLD,30);
         titre.setFont(font);    
         ajouter.setPreferredSize(new Dimension(200, 25));
@@ -84,13 +85,14 @@ public class FenetreMaj extends JFrame implements ActionListener, ItemListener {
         b0.add(retour);
         retour.addActionListener(this);
         
-        //on crée notre panel 1 associé a la table 1
+        //on crée notre panel 1 où on stocke bouton et combobox
         JPanel b1 = new JPanel();
         b1.add(combo_table);
         b1.add(afficher);
         afficher.addActionListener(this);
         combo_table.addActionListener(this);
         
+        //on crée notre panel 2 qui sera en dessous du panel 1
         JPanel b2 = new JPanel();
         b2.add(ajouter);
         b2.add(modifier);
@@ -98,10 +100,9 @@ public class FenetreMaj extends JFrame implements ActionListener, ItemListener {
         ajouter.addActionListener(this);
         modifier.addActionListener(this);
         supprimer.addActionListener(this);
-        
+
+        //ON MET EN PLACE LA DISPOSITION DE NOS BOUTONS dans un ordre précis
         this.getContentPane().add(b0);
-        
-        //ON MET EN PLACE LA DISPOSITION DE NOS BOUTONS
         this.getContentPane().add(titre);
         this.getContentPane().add(b1);
         this.getContentPane().add(b2);
@@ -149,9 +150,7 @@ public class FenetreMaj extends JFrame implements ActionListener, ItemListener {
                 Logger.getLogger(FenetreMaj.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        if (source == combo_table) {
-                    System.out.println("ActionListener : action sur " + combo_table.getSelectedItem());
-            
+        if (source == combo_table) {            
         }
     }
 
@@ -165,47 +164,55 @@ public class FenetreMaj extends JFrame implements ActionListener, ItemListener {
     public void itemStateChanged(ItemEvent evt) { 
     }
     
+    //fonction qui affiche une table complete
     public void affiche_table(Object source) throws ClassNotFoundException
     {
+        //on definit une taille de tableau précise selon la table sélectionnée
         int taille_tableau=taille_table(source);
-        title= new String[taille_tableau];
+        //tableau des entetes
+        title = new String[taille_tableau];
         try {
             int i=0;
             ArrayList<String> liste;
-            Connexion maconnexion = new Connexion("hopital","root","");
 
             // recuperer la liste de la table sélectionnée
             String requeteSelectionnee = "select * from " + source + ";";
-            liste = maconnexion.remplirChampsRequete(requeteSelectionnee);
+            liste = MaConnexion.get().remplirChampsRequete(requeteSelectionnee);
             Object[][]data = new Object[liste.size()][taille_tableau];
             
             // afficher les lignes de la requete selectionnee a partir de la liste
             for (String liste1 : liste) {
-                //resultat.addItem(liste1);
                 for(int j=0 ; j<taille_table(source) ; j++)
                 {
+                    //on appelle une fonction qui va séparer les attributs d'une ligne résultat
                     data[i][j]=separe_colonne(source,liste1,taille_tableau)[j]; 
                 }   
                 i++;
             } 
+            //on définit les valeurs de notre entete et on remplit notre tableau
             title=entete(source);                    
             tableau = new JTable(data, title);
             
+            //on nettoie et on affiche sur le panel
             b2.removeAll();
             b2.setLayout(new BorderLayout());
             b2.add(new JScrollPane(tableau));
             this.getContentPane().add(b2);
             this.setVisible(true);
+            
         } catch (SQLException e) {
         }
     }
     
+    //fonction qui sépare les attributs d'une ligne résultat
+    //le séparateur est une virgule
     public String[] separe_colonne(Object source, String chaine, int taille)
     {
         int i=0;
         String tableau[]=new String[taille];
         tableau[0]="";
         int cpt=0;
+        //malade et employe sont des cas particuliers car ils ont une adresse, avec une virgule
         if(source=="malade" || source=="employe")
         {
             for(int k=0 ; k<taille ; k++)
@@ -221,6 +228,7 @@ public class FenetreMaj extends JFrame implements ActionListener, ItemListener {
                 if(chaine.charAt(j) == ',')
                 {
                     cpt++;
+                    //c'est la virgule de notre adresse
                     if (cpt==4)
                     {   
                         tableau[i]+=chaine.charAt(j);   
@@ -250,6 +258,7 @@ public class FenetreMaj extends JFrame implements ActionListener, ItemListener {
         return tableau;
     }
     
+    //la taille de notre tableau resultat est attribuée en fonction de la table sélectionnée
     public int taille_table (Object source)
     {
         int taille=0;
@@ -288,12 +297,13 @@ public class FenetreMaj extends JFrame implements ActionListener, ItemListener {
         return taille;
     }
     
+    //on définit nos entetes selon la table sélectionnée
     public String[] entete(Object source)
     {      
         String defaut[]={"",""};
         if(source=="chambre")
         {   
-            String entete[]={"NO_CHAMBRE","CODE_SERVICE","SURVEILLANT","NB_LITS"};
+            String entete[]={"CODE_SERVICE","NO_CHAMBRE","SURVEILLANT","NB_LITS"};
             return entete;
         }
         if(source=="docteur")

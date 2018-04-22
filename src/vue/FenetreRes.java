@@ -42,7 +42,7 @@ public final class FenetreRes extends JFrame implements ActionListener, ItemList
         setVisible(true);
         setLocationRelativeTo(null);
         
-        //on cadrille notre fenetre
+        //on quadrille notre fenetre
         this.setLayout(new GridLayout(4,1)); 
         
         //on crée notre bouton
@@ -76,7 +76,7 @@ public final class FenetreRes extends JFrame implements ActionListener, ItemList
         Font font = new Font("Arial",Font.BOLD,20);
         titre.setFont(font); 
                
-        //ON MET EN PLACE LA DISPOSITION DE NOS BOUTONS
+        //On place le tout sur notre fenetre
         this.getContentPane().add(b0);
         this.getContentPane().add(titre);
         this.getContentPane().add(new JScrollPane(tableau));
@@ -120,25 +120,26 @@ public final class FenetreRes extends JFrame implements ActionListener, ItemList
     public void itemStateChanged(ItemEvent evt) { 
     }
     
+    //on veut afficher une table entière
     public void afficherLignes(Object source) throws ClassNotFoundException {
+        //on définie une taille de tableau (pour les entetes) en fonction de la table choisie
         int taille_tableau=taille_table(source);
         title= new String[taille_tableau];
         try {
             int i=0;
             ArrayList<String> liste;
-            Connexion maconnexion = new Connexion("hopital","root","");
 
             // recuperer la liste de la table sélectionnée
             String requeteSelectionnee = "select * from " + source + ";";
-            liste = maconnexion.remplirChampsRequete(requeteSelectionnee);
+            liste = MaConnexion.get().remplirChampsRequete(requeteSelectionnee);
             Object[][]data = new Object[liste.size()][taille_tableau];
             nombre_res = liste.size();
             
             // afficher les lignes de la requete selectionnee a partir de la liste
             for (String liste1 : liste) {
-                //resultat.addItem(liste1);
                 for(int j=0 ; j<taille_table(source) ; j++)
                 {
+                    //on sépare les resulats dans des colonnes différentes
                     data[i][j]=separe_colonne(source,liste1,taille_tableau)[j]; 
                 }   
                 i++;
@@ -154,17 +155,17 @@ public final class FenetreRes extends JFrame implements ActionListener, ItemList
         }
     }
     
+    //on affiche l'une des 10 requetes déjà définie
     public void afficher_requete(Object source, String requete) throws ClassNotFoundException {
         int taille_tableau=taille_table(source);
         title= new String[taille_tableau];
         try {
             int i=0;
             ArrayList<String> liste;
-            Connexion maconnexion = new Connexion("hopital","root","");
 
             // recuperer la liste de la table sélectionnée
             String requeteSelectionnee = requete + ";";
-            liste = maconnexion.remplirChampsRequete(requeteSelectionnee);
+            liste =  MaConnexion.get().remplirChampsRequete(requeteSelectionnee);
             Object[][]data = new Object[liste.size()][taille_tableau];
             nombre_res = liste.size();
             
@@ -188,18 +189,19 @@ public final class FenetreRes extends JFrame implements ActionListener, ItemList
         }
     }
     
+    //on fait une recherche avancée : on recherche un attribut spécifique dans une table
     public void afficher_avancee(Object table, Object attribut, String s) throws ClassNotFoundException {
         Object source = table;
         Object source2 = attribut;    
         try {
             int i=0;
             ArrayList<String> liste;
-            Connexion maconnexion = new Connexion("hopital","root","");
 
             // recuperer la liste de la table sélectionnée
             String requeteSelectionnee = "select * from " 
                 + source + " where " + source + "." + source2 + " like " + "'" + s + "%'" + ";";
             
+            //si c'est docteur, on cherche les attributs dans employé
             if(source.equals("docteur") && !source2.equals("SPECIALITE") && !source2.equals("NUMERO") )
             {
                 source="employe";
@@ -207,6 +209,7 @@ public final class FenetreRes extends JFrame implements ActionListener, ItemList
                 + source + " inner join docteur on docteur.NUMERO = employe.NUMERO where " 
                          + source + "." + source2 + " like " + "'" + s + "%'" + ";";
             }
+            //si c'est infirmier, on cherche les attributs dans employé
             if(source.equals("infirmier") && !source2.equals("ROTATION") && !source2.equals("NUMERO") 
                     && !source2.equals("CODE_SERVICE") && !source2.equals("SALAIRE") )
             {
@@ -216,18 +219,14 @@ public final class FenetreRes extends JFrame implements ActionListener, ItemList
                          + source + "." + source2 + " like " + "'" + s + "%'" + ";";
             }
             
-            
-            
             int taille_tableau=taille_table(source);
             title= new String[taille_tableau];
-            liste = maconnexion.remplirChampsRequete(requeteSelectionnee);
+            liste =  MaConnexion.get().remplirChampsRequete(requeteSelectionnee);
             Object[][]data = new Object[liste.size()][taille_tableau];
             nombre_res = liste.size();
             
             // afficher les lignes de la requete selectionnee a partir de la liste
             for (String liste1 : liste) {
-                
-                System.out.println(liste1);
                 for(int j=0 ; j<taille_table(source) ; j++)
                 {
                     data[i][j]=separe_colonne(source,liste1,taille_tableau)[j]; 
@@ -385,7 +384,7 @@ public final class FenetreRes extends JFrame implements ActionListener, ItemList
         String defaut[]={"",""};
         if(source=="chambre")
         {   
-            String entete[]={"NO_CHAMBRE","CODE_SERVICE","SURVEILLANT","NB_LITS"};
+            String entete[]={"CODE_SERVICE","NO_CHAMBRE","SURVEILLANT","NB_LITS"};
             return entete;
         }
         if(source=="docteur")
@@ -480,7 +479,7 @@ public final class FenetreRes extends JFrame implements ActionListener, ItemList
         return defaut;
     }
     
-    
+    //selon notre requete choisie précedemment, on stocke une requete en SQL dans un String
     public boolean choix_requete(Object source)
     {
         boolean trouve=false;

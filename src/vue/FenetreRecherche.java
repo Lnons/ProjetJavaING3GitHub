@@ -22,10 +22,13 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 public class FenetreRecherche extends JFrame implements ActionListener, ItemListener {
+    private JPanel b0,b1,b2;
     private final JLabel titre;
     private final JButton retour = new JButton("Retour");
     private final JButton rechercher = new JButton("Rechercher");
-    private JPanel b0,b1,b2,b3,b4;
+    private final JButton executer = new JButton("Executer");
+    private JTextField texte = new JTextField(10);
+    private final String[] choix = {"Attributs..."};
     private final String[] table = {"Choisissez une table...","chambre", "docteur", "employe","hospitalisation", "infirmier",
             "malade","service", "soigne"};
     private final String[] requete = {"Choisissez une requete...",
@@ -41,12 +44,9 @@ public class FenetreRecherche extends JFrame implements ActionListener, ItemList
             " et le nombre de malades hospitalisés dans le service",
         "R9. Prénom et nom des docteurs ayant au moins un malade hospitalisé",
         "R10. Prénom et nom des docteurs n’ayant aucun malade hospitalisé"};
-    private final String[] choix = {"Attributs..."};
+    private JComboBox combo_attribut1 = new JComboBox(choix);
     private final JComboBox combo_table1 = new JComboBox(table);
     private final JComboBox combo_requete = new JComboBox(requete);
-    private JComboBox combo_attribut1 = new JComboBox(choix);
-    private final JButton executer = new JButton("Executer");
-    private JTextField texte = new JTextField(10);
     
     public FenetreRecherche(FenetreMenu fen)
     {
@@ -69,7 +69,7 @@ public class FenetreRecherche extends JFrame implements ActionListener, ItemList
         // creation des labels
         titre = new JLabel("Menu de Recherche", JLabel.CENTER);
         
-        //taille des labels
+        //taille des labels et combobox
         Font font = new Font("Arial",Font.BOLD,50);
         titre.setFont(font); 
         texte.setPreferredSize( new Dimension( 200, 25 ) );
@@ -85,8 +85,8 @@ public class FenetreRecherche extends JFrame implements ActionListener, ItemList
         retour.addActionListener(this);
               
         
-        //--------REQUETTE--------------
-        //on crée notre panel 1 associé a la table 1
+        //--------recherche dans une table--------------
+        //on crée notre panel 1
         b1 = new JPanel();
         b1.add(combo_table1);
         b1.add(combo_attribut1);
@@ -97,7 +97,8 @@ public class FenetreRecherche extends JFrame implements ActionListener, ItemList
         rechercher.addActionListener(this);
         texte.addActionListener(this);
         
-        //on crée notre panel 2 associé a la table 2
+        //----------- requetes ----------------
+        //on crée notre panel 2
         b2 = new JPanel();
         b2.add(combo_requete);
         b2.add(executer);
@@ -138,23 +139,19 @@ public class FenetreRecherche extends JFrame implements ActionListener, ItemList
                     FenetreMenu fen = new FenetreMenu(new FenetreLogin());
         }
         if (source == combo_table1) {
-                    System.out.println("ActionListener : action sur " + combo_table1.getSelectedItem());
                     affiche_comboBox(combo_table1.getSelectedItem(),combo_attribut1);
         }
         if (source == executer) {
-            System.out.println("executer");
-            System.out.println("ActionListener : action sur " + combo_requete.getSelectedItem());
             try {
-            FenetreRes resultat_recherche = new FenetreRes(combo_requete.getSelectedItem(),null,"");
+                //on execute une requete deja définie
+                FenetreRes resultat_recherche = new FenetreRes(combo_requete.getSelectedItem(),null,"");
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(FenetreRecherche.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         if (source == combo_requete) {
-                    System.out.println("ActionListener : action sur " + combo_requete.getSelectedItem());
         }
         if (source == rechercher) { 
-            System.out.println(texte.getText());
             try {
                 //si on veut afficher une table selon un attribut et/ou un texte tapé au clavier
                 if(!texte.getText().isEmpty())
@@ -183,7 +180,9 @@ public class FenetreRecherche extends JFrame implements ActionListener, ItemList
     public void itemStateChanged(ItemEvent evt) { 
     }
     
-    public void affiche_comboBox(Object source, JComboBox combo) { 
+    //on affiche les attributs dans une combobox selon la table choisie auparavant
+    public void affiche_comboBox(Object source, JComboBox combo) {
+        //on la vide avant de la remplir
         combo.removeAllItems();
         
         if(source=="chambre")

@@ -6,6 +6,7 @@
 package modele;
 
 import controleur.Connexion;
+import controleur.MaConnexion;
 import java.sql.SQLException;
 
 /**
@@ -15,7 +16,8 @@ import java.sql.SQLException;
 public class soigne {
     private String no_docteur;
     private String no_malade;
-
+    private static Connexion co=MaConnexion.get();
+    
     public soigne()
     {
         
@@ -51,10 +53,7 @@ public class soigne {
     { 
       
         String requeteSoigne="insert into soigne values ("+no_docteur+","+no_malade+");";
-        
-        
-        
-        Connexion co=new Connexion("hopital","root","root");
+
         co.executeUpdate(requeteSoigne);
         
     }
@@ -64,8 +63,7 @@ public class soigne {
         
         
         String requeteSoigne="DELETE FROM soigne WHERE no_docteur="+numero+";";
-        
-        Connexion co=new Connexion("hopital","root","root");
+
         co.executeUpdate(requeteSoigne);
         
         
@@ -75,12 +73,7 @@ public class soigne {
     { 
         String mod;
         String Anciennumero=primarykey;
-        String requeteSoigne;
-        
-        
-        
-        Connexion co=new Connexion("hopital","root","root");
-        
+        String requeteSoigne;        
         
         switch (attribut_choisi) {
             case "NO_DOCTEUR":

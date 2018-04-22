@@ -43,12 +43,12 @@ public class FenetreReporting extends JFrame implements ActionListener, ItemList
     private int choix;
     private final JLabel titre, texte;
     private final JButton retour = new JButton("Retour");
-    private final JButton spec_docteur = new JButton("Spécialité des Docteurs");
-    private final JButton infirmier_service = new JButton("Répartitions des Infirmiers par service");
+    private final JButton spec_docteur = new JButton("Spécialité des docteurs");
+    private final JButton infirmier_service = new JButton("Nombre d'infirmiers par service");
     private final JButton malade_service = new JButton("Nombre de malades par service");
     private final JButton chambre_service = new JButton("Nombre de chambres par service");
-    private final JButton infirmier_rotation = new JButton("Répartitions Jour/Nuit des Infirmiers");
-    private final Connexion maconnexion = new Connexion("hopital","root","");
+    private final JButton infirmier_rotation = new JButton("Répartitions jour/nuit des infirmiers");
+    private final Connexion maconnexion = MaConnexion.get();
     private final String[] cam_bat = {"Diagramme Camembert","Diagramme Bâton"};
     private final JComboBox choix_diagramme = new JComboBox(cam_bat);
     
@@ -66,7 +66,7 @@ public class FenetreReporting extends JFrame implements ActionListener, ItemList
         setVisible(true);
         setLocationRelativeTo(null);
         
-        //on cadrille notre fenetre
+        //on quadrille notre fenetre
         this.setLayout(new GridLayout(9,1));
         
         // creation des labels
@@ -88,6 +88,7 @@ public class FenetreReporting extends JFrame implements ActionListener, ItemList
         b0.add(retour);
         retour.addActionListener(this);
         
+        //on crée nos panels
         JPanel b4 = new JPanel();
         b4.add(texte);
         b4.add(choix_diagramme);
@@ -115,7 +116,7 @@ public class FenetreReporting extends JFrame implements ActionListener, ItemList
         infirmier_rotation.addActionListener(this);
         choix_diagramme.addActionListener(this);
                 
-        //ON MET EN PLACE LA DISPOSITION DE NOS BOUTONS
+        //On place le tout sur notre fenetre
         this.getContentPane().add(b0);
         this.getContentPane().add(titre);
         this.getContentPane().add(b4);
@@ -252,10 +253,12 @@ public class FenetreReporting extends JFrame implements ActionListener, ItemList
         //-------- diagramme camembert -----------
         if(choix==0)
         {
+            //on crée une nouvelle fenetre
             JDialog specialiteDocteur_cam = new JDialog();
             specialiteDocteur_cam.setTitle("Répartition des docteurs selon leur spécialité");
             final DefaultPieDataset pieDataset = new DefaultPieDataset();
 
+            //on ajoute les valeurs dans le camembert
             pieDataset.setValue("Anesthesiste : " + nb_anesthesiste, nb_anesthesiste);
             pieDataset.setValue("Cardiologue : " + nb_cardiologue, nb_cardiologue);
             pieDataset.setValue("Orthopediste : " + nb_orthopediste, nb_orthopediste);
@@ -263,9 +266,11 @@ public class FenetreReporting extends JFrame implements ActionListener, ItemList
             pieDataset.setValue("Radiologue : " + nb_radiologue, nb_radiologue);
             pieDataset.setValue("Traumatologue : " + nb_traumatologue, nb_traumatologue);
 
+            //on crée notre camembert
             final JFreeChart cam_chart = ChartFactory.createPieChart("Répartitions des spécialités", pieDataset, true, false, false);
             final ChartPanel panel = new ChartPanel(cam_chart);
 
+            //on affiche
             specialiteDocteur_cam.getContentPane().add(panel);
             specialiteDocteur_cam.pack();
             specialiteDocteur_cam.setVisible(true);
@@ -273,10 +278,12 @@ public class FenetreReporting extends JFrame implements ActionListener, ItemList
         //--------- diagramme baton -------
         else if(choix==1)
         {
+            //on crée notre fenetre
             JDialog specialiteDocteur_bat = new JDialog();
             specialiteDocteur_bat.setTitle("Répartition des docteurs selon leur spécialité");
             final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
+            //on ajoute les valeurs dans les batons du diagramme
             dataset.addValue(nb_anesthesiste, "Anesthesiste : " + nb_anesthesiste, "Anesthesiste");
             dataset.addValue(nb_cardiologue, "Cardiologue : " + nb_cardiologue, "Cardiologue");
             dataset.addValue(nb_orthopediste, "Orthopediste : " + nb_orthopediste, "Orthopediste");
@@ -284,11 +291,13 @@ public class FenetreReporting extends JFrame implements ActionListener, ItemList
             dataset.addValue(nb_radiologue, "Radiologue : " + nb_radiologue, "Radiologue");
             dataset.addValue(nb_traumatologue, "Traumatologue : " + nb_traumatologue, "Traumatologue");
 
+            //on crée notre diagramme
             final JFreeChart barChart = ChartFactory.createBarChart("Répartition des docteurs selon leur spécialité", "Spécialité docteur", "Nombre", 
                                     dataset, PlotOrientation.VERTICAL, true, true, false);
 
             final ChartPanel panel2 = new ChartPanel(barChart);
 
+            //on affiche
             specialiteDocteur_bat.getContentPane().add(panel2);
             specialiteDocteur_bat.pack();
             specialiteDocteur_bat.setVisible(true);

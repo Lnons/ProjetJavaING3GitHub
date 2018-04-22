@@ -8,7 +8,6 @@ package controleur;
  * 
  * Librairies importées
  */
-import controleur.*;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -55,7 +54,7 @@ public class Connexion {
         Class.forName("com.mysql.jdbc.Driver");
 
         // url de connexion "jdbc:mysql://localhost:3305/usernameECE"
-        String urlDatabase = "jdbc:mysql://localhost:3306/" + nameDatabase;
+        String urlDatabase = "jdbc:mysql://localhost/" + nameDatabase;
 
         //création d'une connexion JDBC à la base 
         conn = DriverManager.getConnection(urlDatabase, loginDatabase, passwordDatabase);
@@ -85,7 +84,7 @@ public class Connexion {
             System.out.println("Connexion reussie");
 
             // url de connexion "jdbc:mysql://localhost:3305/usernameECE"
-            String urlDatabase = "jdbc:mysql://localhost:3306/" + usernameECE;
+            String urlDatabase = "jdbc:mysql://localhost:3305/" + usernameECE;
 
             //création d'une connexion JDBC à la base
             conn = DriverManager.getConnection(urlDatabase, loginDatabase, passwordDatabase);

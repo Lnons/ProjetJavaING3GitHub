@@ -1,7 +1,7 @@
 package controleur;
 
-import controleur.*;
 import com.jcraft.jsch.*;
+//import mysql-connector-java-5.1.18-bin;
 
 /**
  * Etablit une connexion au serveur de la base de données via un tunnel SSH

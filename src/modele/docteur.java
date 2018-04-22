@@ -19,10 +19,11 @@ import static controleur.Connexion.requetes;
  */
 public class docteur extends employe{
     private String specialite;
+    private static Connexion co=MaConnexion.get();
     
     public docteur()
     {
-     super(); 
+        super(); 
     }
 
     public docteur(String numero, String nom, String prenom, String adresse, String tel, String specialite) {
@@ -46,25 +47,19 @@ public class docteur extends employe{
     
     public void addDocteur() throws SQLException, ClassNotFoundException
     { 
-      
-        
         String requeteEmploye="insert into employe values ("+numero+",'"+nom+"','"+prenom+"','"+adresse+"','"+tel+"');";
         String requeteDocteur="insert into docteur values ("+numero+",'"+specialite+"');";
-        
-        
-        Connexion co=new Connexion("hopital","root","root");
+
         co.executeUpdate(requeteEmploye);
-        co.executeUpdate(requeteDocteur);
-        
+        co.executeUpdate(requeteDocteur);       
     }
+    
     public void suppDocteur(String suppNum) throws SQLException, ClassNotFoundException
     { 
         String numero=suppNum;
         
         String requeteDocteur="DELETE FROM docteur WHERE numero="+numero+";";
         String requeteEmploye="DELETE FROM employe WHERE numero="+numero+";";
-        
-        Connexion co=new Connexion("hopital","root","root");
         
         co.executeUpdate(requeteDocteur);
         co.executeUpdate(requeteEmploye);
@@ -77,12 +72,7 @@ public class docteur extends employe{
         String mod;
         String Anciennumero=primarykey;
         String requeteDocteur;
-        String requeteEmploye;
-        
-        
-        
-        Connexion co=new Connexion("hopital","root","root");
-        
+        String requeteEmploye;        
         
         switch (attribut_choisi) {
             case "NUMERO":

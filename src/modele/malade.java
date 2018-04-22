@@ -6,6 +6,7 @@
 package modele;
 
 import controleur.Connexion;
+import controleur.MaConnexion;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -20,6 +21,7 @@ public class malade {
     private String adresse;
     private String tel;
     private String mutuelle;
+    private static Connexion co=MaConnexion.get();
 
     public malade()
     {
@@ -92,10 +94,7 @@ public class malade {
     { 
       
         String requeteMalade="insert into malade values ("+numero+",'"+nom+"','"+prenom+"','"+adresse+"','"+tel+"','"+mutuelle+"');";
-        
-        
-        
-        Connexion co=new Connexion("hopital","root","root");
+
         co.executeUpdate(requeteMalade);
         
     }
@@ -104,8 +103,6 @@ public class malade {
         String numero=suppNum;
         
         String requeteMalade="DELETE FROM malade WHERE numero="+numero+";";
-        
-        Connexion co=new Connexion("hopital","root","root");
         
         co.executeUpdate(requeteMalade);
         
@@ -116,12 +113,7 @@ public class malade {
     { 
         String mod;
         String Anciennumero=primarykey;
-        String requeteMalade;
-        
-        
-        
-        Connexion co=new Connexion("hopital","root","root");
-        
+        String requeteMalade;       
         
         switch (attribut_choisi) {
             case "NUMERO":

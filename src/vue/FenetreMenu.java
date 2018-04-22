@@ -40,7 +40,7 @@ public class FenetreMenu extends JFrame implements ActionListener, ItemListener 
         setVisible(true);
         setLocationRelativeTo(null);
         
-        //on cadrille notre fenetre
+        //on quadrille notre fenetre
         this.setLayout(new GridLayout(5,1));
         
         // creation des labels
@@ -50,8 +50,7 @@ public class FenetreMenu extends JFrame implements ActionListener, ItemListener 
         Font font = new Font("Arial",Font.BOLD,20);
         titre.setFont(font);    
        
-        //ON MET EN PLACE LA DISPOSITION DE NOS BOUTONS
-                
+        //on crée nos labels         
         JPanel b1 = new JPanel();
         b1.add(recherche);
 
@@ -62,20 +61,17 @@ public class FenetreMenu extends JFrame implements ActionListener, ItemListener 
         b3.add(reporting);
         
         //ON MET EN PLACE LA DISPOSITION DE NOS BOUTONS 
-        //this.getContentPane().add(b0);
         this.getContentPane().add(titre);
         this.getContentPane().add(b1);
         this.getContentPane().add(b2);
         this.getContentPane().add(b3);
-
-        //this.getContentPane().add(b4); 
+ 
         this.setVisible(true);
         
         // ajout des listeners
         recherche.addActionListener(this);
         maj.addActionListener(this);
         reporting.addActionListener(this);
-        //retour.addActionListener(this);
         
         // pour fermer la fenetre
         addWindowListener(new WindowAdapter() {
@@ -98,7 +94,7 @@ public class FenetreMenu extends JFrame implements ActionListener, ItemListener 
     public void actionPerformed(ActionEvent evt) {
         Object source = evt.getSource();
 
-        // tester cas de la commande evenementielle
+        //on ouvre une fenetre en fonction du bouton sélectionné
         if (source == recherche) {
                     FenetreRecherche fen = new FenetreRecherche(this);
         } 
