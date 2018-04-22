@@ -74,6 +74,9 @@ public class FenetreMaj extends JFrame implements ActionListener, ItemListener {
         //taille des labels
         Font font = new Font("Arial",Font.BOLD,30);
         titre.setFont(font);    
+        ajouter.setPreferredSize(new Dimension(200, 25));
+        modifier.setPreferredSize(new Dimension(200, 25));
+        supprimer.setPreferredSize(new Dimension(200, 25));
         
         //on crée notre bouton retour
         JPanel b0 = new JPanel();

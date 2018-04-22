@@ -72,7 +72,11 @@ public class FenetreRecherche extends JFrame implements ActionListener, ItemList
         //taille des labels
         Font font = new Font("Arial",Font.BOLD,50);
         titre.setFont(font); 
-        texte.setPreferredSize( new Dimension( 200, 24 ) );
+        texte.setPreferredSize( new Dimension( 200, 25 ) );
+        rechercher.setPreferredSize( new Dimension( 110, 25 ) );
+        executer.setPreferredSize( new Dimension( 110,25 ) );
+        combo_table1.setPreferredSize( new Dimension( 160,25 ) );
+        combo_attribut1.setPreferredSize( new Dimension( 160,25 ) );
         
         //on crée notre bouton retour
         b0 = new JPanel();
@@ -82,8 +86,6 @@ public class FenetreRecherche extends JFrame implements ActionListener, ItemList
               
         
         //--------REQUETTE--------------
-     
-        combo_attribut1.setPreferredSize(new Dimension(100, 25));
         //on crée notre panel 1 associé a la table 1
         b1 = new JPanel();
         b1.add(combo_table1);
@@ -198,7 +200,7 @@ public class FenetreRecherche extends JFrame implements ActionListener, ItemList
             combo.addItem("PRENOM");
             combo.addItem("TEL");
             combo.addItem("ADRESSE");
-            combo.addItem("specialite");
+            combo.addItem("SPECIALITE");
         }
         if(source=="employe")
         {

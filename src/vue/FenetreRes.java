@@ -203,27 +203,31 @@ public final class FenetreRes extends JFrame implements ActionListener, ItemList
             if(source.equals("docteur") && !source2.equals("SPECIALITE") && !source2.equals("NUMERO") )
             {
                 source="employe";
-                 requeteSelectionnee = "select * from " 
-                + source + " where " + source + "." + source2 + " like " + "'" + s + "%'" + ";";
+                requeteSelectionnee = "select * from " 
+                + source + " inner join docteur on docteur.NUMERO = employe.NUMERO where " 
+                         + source + "." + source2 + " like " + "'" + s + "%'" + ";";
             }
             if(source.equals("infirmier") && !source2.equals("ROTATION") && !source2.equals("NUMERO") 
                     && !source2.equals("CODE_SERVICE") && !source2.equals("SALAIRE") )
             {
                 source="employe";
-                 requeteSelectionnee = "select * from " 
-                + source + " where " + source + "." + source2 + " like " + "'" + s + "%'" + ";";
+                requeteSelectionnee = "select * from " 
+                + source + " inner join infirmier on infirmier.NUMERO = employe.NUMERO where " 
+                         + source + "." + source2 + " like " + "'" + s + "%'" + ";";
             }
+            
+            
             
             int taille_tableau=taille_table(source);
             title= new String[taille_tableau];
-            System.out.println(requeteSelectionnee);
             liste = maconnexion.remplirChampsRequete(requeteSelectionnee);
             Object[][]data = new Object[liste.size()][taille_tableau];
             nombre_res = liste.size();
             
             // afficher les lignes de la requete selectionnee a partir de la liste
             for (String liste1 : liste) {
-                //resultat.addItem(liste1);
+                
+                System.out.println(liste1);
                 for(int j=0 ; j<taille_table(source) ; j++)
                 {
                     data[i][j]=separe_colonne(source,liste1,taille_tableau)[j]; 
@@ -253,7 +257,8 @@ public final class FenetreRes extends JFrame implements ActionListener, ItemList
             {
                 tableau[k]="";
             }
-            for(int j=0 ; j<chaine.length() ; j++)
+            //i<taille pour les requete complexes avec jointure (ex: docteur et nom) 
+            for(int j=0 ; j<chaine.length() && i<taille ; j++)
             {
                 if(chaine.charAt(j) != ',')
                 {

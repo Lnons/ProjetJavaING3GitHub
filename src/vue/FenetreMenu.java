@@ -23,7 +23,6 @@ public class FenetreMenu extends JFrame implements ActionListener, ItemListener 
     private final JButton recherche = new JButton("Recherche");
     private final JButton maj = new JButton("Mise à jour");
     private final JButton reporting = new JButton("Reporting");
-    //private final JButton retour = new JButton("Retour");
     private final JLabel titre;
     
     public FenetreMenu(FenetreLogin fen)
@@ -52,10 +51,7 @@ public class FenetreMenu extends JFrame implements ActionListener, ItemListener 
         titre.setFont(font);    
        
         //ON MET EN PLACE LA DISPOSITION DE NOS BOUTONS
-        /*JPanel b0 = new JPanel();
-        b0.setLayout(new BoxLayout(b0, BoxLayout.LINE_AXIS));
-        b0.add(retour);*/
-        
+                
         JPanel b1 = new JPanel();
         b1.add(recherche);
 
@@ -114,7 +110,13 @@ public class FenetreMenu extends JFrame implements ActionListener, ItemListener 
             }
         } 
         if (source == reporting) {
-            FenetreReporting fen = new FenetreReporting(this);
+            try {
+                FenetreReporting fen = new FenetreReporting(this);
+            } catch (SQLException ex) {
+                Logger.getLogger(FenetreMenu.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(FenetreMenu.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } 
         
     }
